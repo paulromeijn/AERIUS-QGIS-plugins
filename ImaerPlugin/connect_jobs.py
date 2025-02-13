@@ -160,7 +160,10 @@ class ConnectJobsDialog(QDialog, FORM_CLASS):
             col_num = 4
             number_of_points_calculated = job['numberOfPointsCalculated']
             number_of_points = job['numberOfPoints']
-            percentage = number_of_points_calculated / number_of_points * 100
+            if number_of_points > 0:
+                percentage = number_of_points_calculated / number_of_points * 100
+            else:
+                percentage = 0
             value = f'{percentage:.0f}%'
             self.table_jobs.setItem(row_num, col_num, QTableWidgetItem(value))
 
