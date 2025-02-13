@@ -69,7 +69,7 @@ class ImaerPlugin:
         self.provider = None
         self.imaer_calc_layers = {}
         self.settings = QgsSettings()
-        self.version = '3.6.0'
+        self.version = '3.6.1'
         self.imaer_doc = ImaerDocument()
         self.imaer_gpkg = ImaerGpkg(None)
         self.imaer_gpkg_field_factory = ImaerGpkgFieldFactory()
@@ -489,8 +489,8 @@ class ImaerPlugin:
             self.connect_jobs_dlg.get_jobs()
 
     def open_online_documentation(self):
-        short_version = '.'.join(self.version.split('.')[:2])  # 3.4.0 -> 3.4
-        doc_index_url = f'https://opengeogroep.github.io/AERIUS-QGIS-plugins/{short_version}/'
+        short_version = '.'.join(self.version.split('.')[:2])  # 3.4.2 -> 3.4
+        doc_index_url = f'https://aerius.github.io/IMAER-QGIS-plugin/{short_version}/'
         webbrowser.open(doc_index_url)
 
     def open_configuration(self):

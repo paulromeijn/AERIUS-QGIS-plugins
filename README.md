@@ -5,7 +5,7 @@ QGIS 3 plugin for working with IMAER files
 ## Documentation
 
 The user documentation can be found here:
-[Github Pages](http://opengeogroep.github.io/AERIUS-QGIS-plugins/)
+[Github Pages](http://aerius.github.io/IMAER-QGIS-plugin/)
 
 ## Running tests
 

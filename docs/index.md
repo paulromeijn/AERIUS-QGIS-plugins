@@ -37,7 +37,7 @@ manually in QGIS.
 ## Issues
 
 If you meet any issues with this plugin, please file a bug report on the
-github issue [page](https://github.com/opengeogroep/AERIUS-QGIS-plugins/issues).
+github issue [page](https://github.com/aerius/IMAER-QGIS-plugin/issues).
 You can also suggest ideas for improvements or enhancements.
 
 ## License

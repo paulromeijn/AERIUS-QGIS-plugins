@@ -2,8 +2,8 @@
 
 [general]
 name=IMAER Plugin
-email=info@opengeogroep.nl
-author=OpenGeoGroep
+email=r.nijssen@terglobo.nl
+author=Raymond Nijssen, AERIUS
 qgisMinimumVersion=3.34.0
 qgisMaximumVersion=3.99.99
 description=Plugin for handling AERIUS and UK Air Pollution Assessment Service (APAS) IMAER files
@@ -18,16 +18,17 @@ about=This plugin is co-developed between the Dutch and British government and s
     - Provides a GUI to the AERIUS Connect API.
 
 # Also change the version number in the plugin class in imaer_plugin.py!
-version=version 3.6.0
+version=version 3.6.1
 
-tracker=https://github.com/opengeogroep/AERIUS-QGIS-plugins/issues
-repository=https://github.com/opengeogroep/AERIUS-QGIS-plugins
-homepage=https://github.com/opengeogroep/AERIUS-QGIS-plugins
+tracker=https://github.com/aerius/IMAER-QGIS-plugin/issues
+repository=https://github.com/aerius/IMAER-QGIS-plugin/
+homepage=https://github.com/aerius/IMAER-QGIS-plugin/
 # End of mandatory metadata
 
 # Recommended items:
 
 changelog=
+    3.6.1   (13-02-2025) Fix for division by zero bug in AERIUS Connect progress display, source code transfered to AERIUS github
     3.6.0   (01-10-2024) Support for Connect 8, PDF extract dropped
     3.5.1   (26-08-2024) Support for IMAER 6, Subreceptors, Time Varying Profiles, GUI enhancements, automated GUI tests, and more
     3.4.2   (16-11-2023) Improved Plugin metadata for UK
@@ -57,11 +58,6 @@ tags=imaer,aerius,calculator,connect,gml,stikstof,nitrogen,air,pollution,nl,uk,a
 category=Plugins
 icon=img/icon_import_calc_result.svg
 
-# processing provider flag
-hasProcessingProvider=yes
-
-# experimental flag
+hasProcessingProvider=True
 experimental=False
-
-# deprecated flag (applies to the whole plugin, not just a single version)
 deprecated=False
