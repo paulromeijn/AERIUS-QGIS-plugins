@@ -5,8 +5,8 @@
 # importing AERIUS Calculator output IMAER files.
 #
 # begin:      2020-05-08
-# copyright:  (C) 2020 by OpenGeoGroep
-# email:      info@opengeogroep.nl
+# copyright:  (C) 2020 by Raymond Nijssen, AERIUS
+# email:      r.nijssen@terglobo.nl
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
