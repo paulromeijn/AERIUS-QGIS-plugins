@@ -623,6 +623,7 @@ class GenerateCalcInputDialog(QDialog, FORM_CLASS):
         es.tunnel_factor = self.get_feature_value(self.fcb_rd_tunnel_factor, feat)
         es.elevation = self.get_feature_value(self.fcb_rd_elevation, feat)
         es.elevation_height = self.get_feature_value(self.fcb_rd_elevation_height, feat)
+        es.traffic_direction = self.get_feature_value(self.fcb_rd_traffic_direction, feat)
 
         # barriers
         for side in ['left', 'right']:
@@ -700,6 +701,7 @@ class GenerateCalcInputDialog(QDialog, FORM_CLASS):
         es.coverage = self.get_feature_value(self.fcb_rd_coverage, feat)
         es.tunnel_factor = self.get_feature_value(self.fcb_rd_tunnel_factor, feat)
         es.elevation_height = self.get_feature_value(self.fcb_rd_elevation_height, feat)
+        es.traffic_direction = self.get_feature_value(self.fcb_rd_traffic_direction, feat)
 
         # barriers
         for side in ['left', 'right']:
@@ -755,7 +757,8 @@ class GenerateCalcInputDialog(QDialog, FORM_CLASS):
         if self.radio_veh_page_eft.isChecked():
             fcb = getattr(self, f'fcb_rd_v_eft_link_speed')
             link_speed = self.get_feature_value(fcb, feat)
-            link_speed = int(link_speed)
+            if link_speed is not None:
+                link_speed = int(link_speed)
 
             vehicle_types = {
                 'car': 'Car',

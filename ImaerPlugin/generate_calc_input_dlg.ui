@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>650</width>
-    <height>1259</height>
+    <height>1116</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -120,7 +120,7 @@
    <item>
     <widget class="QTabWidget" name="tabs_mapping">
      <property name="currentIndex">
-      <number>2</number>
+      <number>5</number>
      </property>
      <widget class="QWidget" name="tab_metadata">
       <attribute name="title">
@@ -237,9 +237,9 @@
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>-443</y>
+            <y>0</y>
             <width>594</width>
-            <height>1312</height>
+            <height>1388</height>
            </rect>
           </property>
           <layout class="QFormLayout" name="formLayout_13">
@@ -647,9 +647,9 @@
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>-791</y>
+            <y>0</y>
             <width>594</width>
-            <height>2265</height>
+            <height>2428</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout">
@@ -947,6 +947,16 @@
              <item row="9" column="1">
               <widget class="QgsFieldComboBox" name="fcb_rd_elevation_height"/>
              </item>
+             <item row="10" column="1">
+              <widget class="QgsFieldComboBox" name="fcb_rd_traffic_direction"/>
+             </item>
+             <item row="10" column="0">
+              <widget class="QLabel" name="label_rd_traffic_direction">
+               <property name="text">
+                <string>traffic direction</string>
+               </property>
+              </widget>
+             </item>
             </layout>
            </item>
            <item row="17" column="1">
@@ -1013,7 +1023,7 @@
               <item row="0" column="0">
                <widget class="QStackedWidget" name="stack_rd_veh">
                 <property name="currentIndex">
-                 <number>1</number>
+                 <number>0</number>
                 </property>
                 <widget class="QWidget" name="page_veh_srm2">
                  <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -1579,7 +1589,7 @@
             <x>0</x>
             <y>0</y>
             <width>608</width>
-            <height>869</height>
+            <height>706</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -1679,7 +1689,7 @@
             <x>0</x>
             <y>0</y>
             <width>608</width>
-            <height>869</height>
+            <height>706</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_9">
@@ -1928,13 +1938,11 @@
   <tabstop>checkBox_cp</tabstop>
   <tabstop>checkBox_tvp</tabstop>
   <tabstop>tabs_mapping</tabstop>
-  <tabstop>group_project</tabstop>
-  <tabstop>combo_project_year</tabstop>
-  <tabstop>edit_project_description</tabstop>
-  <tabstop>group_situation</tabstop>
-  <tabstop>edit_situation_name</tabstop>
-  <tabstop>combo_situation_type</tabstop>
-  <tabstop>scrollArea</tabstop>
+  <tabstop>combo_layer_es</tabstop>
+  <tabstop>fcb_es_sector_id</tabstop>
+  <tabstop>fcb_es_label</tabstop>
+  <tabstop>fcb_es_description</tabstop>
+  <tabstop>groupBox_es_characteristics</tabstop>
   <tabstop>fcb_es_emission_height</tabstop>
   <tabstop>fcb_es_spread</tabstop>
   <tabstop>fcb_es_prim_bld</tabstop>
@@ -1953,6 +1961,14 @@
   <tabstop>fcb_es_adms_vertical_velocity</tabstop>
   <tabstop>fcb_es_adms_volumetric_flow_rate</tabstop>
   <tabstop>fcb_es_hc_value</tabstop>
+  <tabstop>fcb_es_tvp_standard</tabstop>
+  <tabstop>fcb_es_tvp_reference</tabstop>
+  <tabstop>fcb_es_tvp_adms_hourly_standard</tabstop>
+  <tabstop>fcb_es_tvp_adms_hourly_reference</tabstop>
+  <tabstop>fcb_es_tvp_adms_monthly_standard</tabstop>
+  <tabstop>fcb_es_tvp_adms_monthly_reference</tabstop>
+  <tabstop>fcb_em_nox</tabstop>
+  <tabstop>fcb_em_nh3</tabstop>
   <tabstop>scrollArea_2</tabstop>
   <tabstop>combo_layer_rd</tabstop>
   <tabstop>fcb_rd_label</tabstop>
@@ -1965,6 +1981,7 @@
   <tabstop>fcb_rd_coverage</tabstop>
   <tabstop>fcb_rd_tunnel_factor</tabstop>
   <tabstop>fcb_rd_elevation_height</tabstop>
+  <tabstop>fcb_rd_traffic_direction</tabstop>
   <tabstop>fcb_rd_b_left_type</tabstop>
   <tabstop>fcb_rd_b_left_height</tabstop>
   <tabstop>fcb_rd_b_left_height_av</tabstop>
@@ -1981,13 +1998,20 @@
   <tabstop>fcb_rd_b_right_porosity</tabstop>
   <tabstop>fcb_rd_tvp_standard</tabstop>
   <tabstop>fcb_rd_tvp_reference</tabstop>
+  <tabstop>fcb_rd_tvp_adms_hourly_standard</tabstop>
+  <tabstop>fcb_rd_tvp_adms_hourly_reference</tabstop>
+  <tabstop>fcb_rd_tvp_adms_monthly_standard</tabstop>
+  <tabstop>fcb_rd_tvp_adms_monthly_reference</tabstop>
   <tabstop>radio_veh_page_custom</tabstop>
   <tabstop>radio_veh_page_eft</tabstop>
-  <tabstop>fcb_rd_v_custom_description</tabstop>
-  <tabstop>fcb_rd_v_custom_movements</tabstop>
-  <tabstop>fcb_rd_v_custom_movements_units</tabstop>
-  <tabstop>fcb_rd_v_custom_em_nox</tabstop>
-  <tabstop>fcb_rd_v_custom_em_nh3</tabstop>
+  <tabstop>fcb_rd_v_eft_units</tabstop>
+  <tabstop>fcb_rd_v_eft_link_speed</tabstop>
+  <tabstop>fcb_rd_v_eft_n_car</tabstop>
+  <tabstop>fcb_rd_v_eft_n_taxi</tabstop>
+  <tabstop>fcb_rd_v_eft_n_motor</tabstop>
+  <tabstop>fcb_rd_v_eft_n_lgv</tabstop>
+  <tabstop>fcb_rd_v_eft_n_hgv</tabstop>
+  <tabstop>fcb_rd_v_eft_n_bus</tabstop>
   <tabstop>fcb_rd_v_lt1_vehicles_per_time</tabstop>
   <tabstop>fcb_rd_v_lt1_stagnation</tabstop>
   <tabstop>fcb_rd_v_lt1_maxspeed</tabstop>
@@ -2028,14 +2052,19 @@
   <tabstop>edit_outfile</tabstop>
   <tabstop>button_outfile</tabstop>
   <tabstop>btn_save_settings</tabstop>
+  <tabstop>scrollArea</tabstop>
+  <tabstop>fcb_rd_v_custom_em_nox</tabstop>
+  <tabstop>fcb_rd_v_custom_em_nh3</tabstop>
+  <tabstop>edit_situation_name</tabstop>
+  <tabstop>combo_project_year</tabstop>
+  <tabstop>combo_situation_type</tabstop>
+  <tabstop>fcb_rd_v_custom_movements</tabstop>
+  <tabstop>group_situation</tabstop>
+  <tabstop>edit_project_description</tabstop>
+  <tabstop>group_project</tabstop>
+  <tabstop>fcb_rd_v_custom_description</tabstop>
+  <tabstop>fcb_rd_v_custom_movements_units</tabstop>
   <tabstop>btn_load_settings</tabstop>
-  <tabstop>fcb_em_nh3</tabstop>
-  <tabstop>fcb_es_description</tabstop>
-  <tabstop>fcb_es_label</tabstop>
-  <tabstop>combo_layer_es</tabstop>
-  <tabstop>fcb_em_nox</tabstop>
-  <tabstop>groupBox_es_characteristics</tabstop>
-  <tabstop>fcb_es_sector_id</tabstop>
  </tabstops>
  <resources/>
  <connections>
@@ -2047,7 +2076,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>639</x>
-     <y>1012</y>
+     <y>1105</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -2063,7 +2092,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>639</x>
-     <y>1012</y>
+     <y>1105</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>
