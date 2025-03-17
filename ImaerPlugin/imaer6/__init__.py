@@ -26,8 +26,7 @@ from .roads import (
     CustomVehicle
 )
 from .buildings import Building
-from .calc_point import CalculationPoint
 from .gml import get_gml_element
 from .identifier import Nen3610Id
 
-from .receptors import ReceptorPoint
+from .receptors import ReceptorPoint, CalculationPoint

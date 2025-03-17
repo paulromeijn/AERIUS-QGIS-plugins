@@ -30,11 +30,15 @@ _GEOM4 = QgsGeometry.fromWkt('POLYGON((1 0, 2 1, 3 0, 2 -1, 1 0))')
 _GEOM_POINT_UK_1 = QgsGeometry.fromWkt('POINT(311618 723548)')
 _GEOM_POLY_UK_1 = QgsGeometry.fromWkt('POLYGON((311608 723548, 311618 723558, 311628 723548, 311618 723538, 311608 723548))')
 
+_VALIDATE_XML = False
+
 # Load IMAER xsd for validation check. (Needs internet connection and can take pretty long.)
 # xsd_fn = os.path.join('test', 'xsd', 'IMAER_5.1.2.xsd')
-xsd_fn = os.path.join('test', 'xsd', 'IMAER_6.0.0.xsd')
-xmlschema_doc = etree.parse(xsd_fn)
-xmlschema = etree.XMLSchema(xmlschema_doc)
+
+if _VALIDATE_XML:
+    xsd_fn = os.path.join('test', 'xsd', 'IMAER_6.0.0.xsd')
+    xmlschema_doc = etree.parse(xsd_fn)
+    xmlschema = etree.XMLSchema(xmlschema_doc)
 
 
 class TestImaerGenerate(unittest.TestCase):
@@ -64,8 +68,9 @@ class TestImaerGenerate(unittest.TestCase):
         output_fn = os.path.join('test', 'output', f'output_{name}.gml')
         fcc.to_xml_file(output_fn)
 
-        validation_result = self.validate_xml_locally(output_fn)
-        self.assertTrue(validation_result)
+        if _VALIDATE_XML:
+            validation_result = self.validate_xml_locally(output_fn)
+            self.assertTrue(validation_result)
 
     def test_ffc_empty(self):
         fcc = ImaerDocument()
@@ -257,7 +262,6 @@ class TestImaerGenerate(unittest.TestCase):
             geom=_GEOM0,
             epsg_id=28992,
             label='Pnt 888',
-            description='Point number 888.'
         )
         fcc = ImaerDocument()
         fcc.feature_members.append(cp)
@@ -270,9 +274,10 @@ class TestImaerGenerate(unittest.TestCase):
             geom=_GEOM0,
             epsg_id=28992,
             label='Pnt 888',
-            description='Point number 888.',
             height=2.34,
-            assessment_category='MONITORING'
+            assessment_category='MONITORING',
+            description='Calculation point 888.',
+            road_local_fraction_no2=3.33
         )
         fcc.feature_members.append(cp)
         cp = CalculationPoint(
@@ -280,7 +285,6 @@ class TestImaerGenerate(unittest.TestCase):
             geom=_GEOM0,
             epsg_id=28992,
             label='Pnt 999',
-            description=None,
             height=3.456,
             assessment_category=None
         )

@@ -2,7 +2,7 @@ from qgis.core import QgsFeature
 
 from .geometry import GmlPoint, GmlPolygon
 from .identifier import Nen3610Id
-
+from .gml import get_gml_element
 
 class CalculationResult(object):
 
@@ -52,6 +52,7 @@ class Receptor(object):
         self.local_id = local_id
         self.identifier = identifier
         self.gm_point = geom
+        self.epsg_id = epsg_id
         self.representation = None
         self.edge_effect = None
         self.level = None
@@ -68,6 +69,21 @@ class Receptor(object):
         self.road_local_fraction_no2 = None
         # self.habitat_code = None
 
+        class_name = self.__class__.__name__
+        if class_name == 'ReceptorPoint':
+            self.domain = 'RP'
+        elif class_name == 'SubPoint':
+            self.domain = 'SP'
+        elif class_name == 'CalculationPoint':
+            self.domain = 'CP'
+        else:
+            self.domain = 'RR'
+
+        if identifier is None:
+            self.identifier = Nen3610Id(local_id=f'{self.domain}.{self.local_id}')
+        else:
+            self.identifier = identifier
+
     def is_valid(self):
         return self.local_id is not None
 
@@ -76,32 +92,35 @@ class Receptor(object):
 
     def to_xml_elem(self, doc):
         class_name = self.__class__.__name__
-        elem = doc.createElement(f'imaer:{class_name}')
+        result = doc.createElement(f'imaer:{class_name}')
+        result.setAttribute('gml:id', f'{self.domain}.{self.local_id}')
 
         if self.identifier is not None:
             ident_elem = doc.createElement('imaer:identifier')
             nen_elem = self.identifier.to_xml_elem(doc)
             ident_elem.appendChild(nen_elem)
-            elem.appendChild(ident_elem)
+            result.appendChild(ident_elem)
 
         if self.gm_point is not None:
             gmp_elem = doc.createElement('imaer:GM_Point')
-            pnt_elem = self.gm_point.to_xml_elem(doc)
+            # pnt_elem = self.gm_point.to_xml_elem(doc)
+            gml_type = 'POINT'
+            pnt_elem = get_gml_element(self.gm_point, f'{self.domain}.{self.local_id}.{gml_type}', self.epsg_id)
             gmp_elem.appendChild(pnt_elem)
-            elem.appendChild(gmp_elem)
+            result.appendChild(gmp_elem)
 
         if self.representation is not None:
             repr_elem = doc.createElement('imaer:representation')
             poly_elem = self.representation.to_xml_elem(doc)
             repr_elem.appendChild(poly_elem)
-            elem.appendChild(repr_elem)
+            result.appendChild(repr_elem)
 
         for result in self.results:
             result_elem = doc.createElement('result')
             result_elem.appendChild(result.to_xml_elem(doc))
-            elem.appendChild(result_elem)
+            result.appendChild(result_elem)
 
-        return elem
+        return result
 
     def from_xml_reader(self, xml_reader):
         start_tag_name = xml_reader.name()
@@ -344,15 +363,57 @@ class SubPoint(Receptor):
 
 class CalculationPoint(Receptor):
 
-    def __init__(self, **kwargs):
+    def __init__(self, label=None, height=None, assessment_category=None, description=None, road_local_fraction_no2=None, **kwargs):
         super().__init__(**kwargs)
+
+        self.label = label
+        self.height = height
+        self.assessment_category = assessment_category
+        self.description = description
+        self.road_local_fraction_no2 = road_local_fraction_no2
 
     def __str__(self):
         class_name = self.__class__.__name__
-        return f'{class_name}[{self.identifier}, {self.label}, {self.height}, {self.assessment_category}, {len(self.results)}]'
+        return f'{class_name}[{self.identifier}, {self.label}, {self.height}, {self.assessment_category}, {self.road_local_fraction_no2}, {len(self.results)}]'
 
     def is_valid(self):
         return True  # self.local_id is not None
+
+    def to_xml_elem(self, doc):
+        print('CP.to_xml_elem()')
+        result = super().to_xml_elem(doc)
+
+        # label
+        if self.label is not None:
+            elem = doc.createElement('imaer:label')
+            elem.appendChild(doc.createTextNode(str(self.label)))
+            result.appendChild(elem)
+
+        # height
+        if self.height is not None:
+            elem = doc.createElement('imaer:height')
+            elem.appendChild(doc.createTextNode(str(self.height)))
+            result.appendChild(elem)
+
+        # assessment_category
+        if self.assessment_category is not None:
+            elem = doc.createElement('imaer:assessmentCategory')
+            elem.appendChild(doc.createTextNode(str(self.assessment_category)))
+            result.appendChild(elem)
+
+        # description
+        if self.description is not None:
+            elem = doc.createElement('imaer:description')
+            elem.appendChild(doc.createTextNode(str(self.description)))
+            result.appendChild(elem)
+
+        # road_local_fraction_no2
+        if self.road_local_fraction_no2 is not None:
+            elem = doc.createElement('imaer:roadLocalFractionNO2')
+            elem.appendChild(doc.createTextNode(str(self.road_local_fraction_no2)))
+            result.appendChild(elem)
+
+        return result
 
     def to_point_feature(self, fid=None):
         if not self.is_valid():
