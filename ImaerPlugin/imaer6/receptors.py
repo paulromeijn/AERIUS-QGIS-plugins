@@ -74,10 +74,10 @@ class Receptor(object):
             self.domain = 'RP'
         elif class_name == 'SubPoint':
             self.domain = 'SP'
-        elif class_name == 'CalculationPoint':
+        elif class_name in ['CalculationPoint', 'NcaCustomCalculationPoint']:
             self.domain = 'CP'
         else:
-            self.domain = 'RR'
+            self.domain = 'XX'
 
         if identifier is None:
             self.identifier = Nen3610Id(local_id=f'{self.domain}.{self.local_id}')
@@ -254,7 +254,7 @@ class ReceptorPoint(Receptor):
             return
 
         feat = QgsFeature()
-        feat.setGeometry(self.gm_point.to_geometry())
+        feat.setGeometry(self.gm_point.to_qgis_geometry())
 
         attributes = []
         attributes.append(fid)
@@ -278,7 +278,7 @@ class ReceptorPoint(Receptor):
             return
 
         feat = QgsFeature()
-        feat.setGeometry(self.representation.to_geometry())
+        feat.setGeometry(self.representation.to_qgis_geometry())
 
         attributes = []
         attributes.append(fid)
@@ -321,11 +321,10 @@ class SubPoint(Receptor):
 
     def to_point_feature(self, fid=None):
         if not self.is_valid():
-            print('invalid')
             return
 
         feat = QgsFeature()
-        feat.setGeometry(self.gm_point.to_geometry())
+        feat.setGeometry(self.gm_point.to_qgis_geometry())
 
         attributes = []
         attributes.append(fid)
@@ -380,7 +379,6 @@ class CalculationPoint(Receptor):
         return True  # self.local_id is not None
 
     def to_xml_elem(self, doc):
-        print('CP.to_xml_elem()')
         result = super().to_xml_elem(doc)
 
         # label
@@ -401,16 +399,16 @@ class CalculationPoint(Receptor):
             elem.appendChild(doc.createTextNode(str(self.assessment_category)))
             result.appendChild(elem)
 
-        # description
-        if self.description is not None:
-            elem = doc.createElement('imaer:description')
-            elem.appendChild(doc.createTextNode(str(self.description)))
-            result.appendChild(elem)
-
         # road_local_fraction_no2
         if self.road_local_fraction_no2 is not None:
             elem = doc.createElement('imaer:roadLocalFractionNO2')
             elem.appendChild(doc.createTextNode(str(self.road_local_fraction_no2)))
+            result.appendChild(elem)
+
+        # description
+        if self.description is not None:
+            elem = doc.createElement('imaer:description')
+            elem.appendChild(doc.createTextNode(str(self.description)))
             result.appendChild(elem)
 
         return result
@@ -421,7 +419,7 @@ class CalculationPoint(Receptor):
             return
 
         feat = QgsFeature()
-        feat.setGeometry(self.gm_point.to_geometry())
+        feat.setGeometry(self.gm_point.to_qgis_geometry())
 
         if self.identifier is not None:
             local_id = self.identifier.local_id
@@ -452,3 +450,6 @@ class CalculationPoint(Receptor):
 
         feat.setAttributes(attributes)
         return feat
+
+class NcaCustomCalculationPoint(CalculationPoint):
+    pass

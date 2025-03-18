@@ -29,4 +29,8 @@ from .buildings import Building
 from .gml import get_gml_element
 from .identifier import Nen3610Id
 
-from .receptors import ReceptorPoint, CalculationPoint
+from .receptors import (
+    ReceptorPoint,
+    CalculationPoint,
+    NcaCustomCalculationPoint
+)

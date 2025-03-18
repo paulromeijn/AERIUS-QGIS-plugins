@@ -52,6 +52,7 @@ from ImaerPlugin.imaer6 import (
     AeriusCalculatorMetadata,
     Building,
     CalculationPoint,
+    NcaCustomCalculationPoint,
     CustomTimeVaryingProfile,
     CustomVehicle,
     Emission,
@@ -860,21 +861,32 @@ class GenerateCalcInputDialog(QDialog, FORM_CLASS):
         if cp_id is None:
             cp_id = local_id  # fall back to local_id
         cp_label = self.get_feature_value(self.fcb_cp_label, feat)
+        print(cp_label)
         cp_description = self.get_feature_value(self.fcb_cp_desc, feat)
         cp_height = self.get_feature_value(self.fcb_cp_height, feat)
         cp_category = self.get_feature_value(self.fcb_cp_category, feat)
+        cp_local_fraction_no2 = self.get_feature_value(self.fcb_cp_local_fraction_no2, feat)
 
-        p = CalculationPoint(
-            local_id=cp_id,
-            geom=geom,
-            epsg_id=epsg_id,
-            label=cp_label,
-            description=cp_description,
-            height=cp_height,
-            assessment_category=cp_category
-        )
+        country = self.combo_country.currentData()
+        if country == 'NL':
+            cp = CalculationPoint()
+        elif country == 'UK':
+            cp = NcaCustomCalculationPoint()
+        else:
+            return None
 
-        return p
+        cp.local_id = cp_id
+        cp.gm_point = geom
+        cp.epsg_id = epsg_id
+        cp.label = cp_label
+        cp.description = cp_description
+        cp.height = cp_height
+        cp.assessment_category = cp_category
+        cp.road_local_fraction_no2 = cp_local_fraction_no2
+        
+        print(cp)
+        print(cp.gm_point)
+        return cp
 
     def open_time_varying_profile_dlg(self, tvp=None):
         self.plugin.log('open_tvp_dlg()', user='dev')

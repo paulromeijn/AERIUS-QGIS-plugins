@@ -66,7 +66,7 @@ class GmlPoint(GmlGeometry):
                 self.x = float(parts[0])
                 self.y = float(parts[1])
 
-    def to_geometry(self):
+    def to_qgis_geometry(self):
         return QgsPoint(round(self.x, 3), round(self.y, 3))
 
 
@@ -74,7 +74,7 @@ class GmlLineString(GmlGeometry):  # NEVER TESTED!!!
 
     def __init__(self, *, coords=None):
         super().__init__()
-        self.coords = coords or []
+        self.coords = coords or []  # [x, y, x, y, x, y, ...]
 
     def __str__(self):
         return f'GmlLineString[{self.epsg_id}, {self.gml_id}, {len(self.coords)}, {self.coords[:4]}]'
@@ -98,7 +98,7 @@ class GmlPolygon(GmlGeometry):
 
     def __init__(self, *, exterior=None):
         super().__init__()
-        self.exterior = exterior or []
+        self.exterior = exterior or []  # [x, y, x, y, x, y, ...]
 
     def __str__(self):
         return f'GmlPolygon[{self.epsg_id}, {self.gml_id}, {len(self.exterior)}, {self.exterior[:4]}]'
@@ -137,7 +137,7 @@ class GmlPolygon(GmlGeometry):
                 for part in parts:
                     self.exterior.append(float(part))
 
-    def to_geometry(self):
+    def to_qgis_geometry(self):
         line = QgsLineString()
         for i in range(0, len(self.exterior), 2):
             line.addVertex(QgsPoint(self.exterior[i], self.exterior[i + 1]))
