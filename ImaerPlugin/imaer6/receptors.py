@@ -66,7 +66,6 @@ class Receptor():
         self.height = None
         self.assessment_category = None
         self.road_local_fraction_no2 = None
-        # self.habitat_code = None
 
         class_name = self.__class__.__name__
         if class_name == 'ReceptorPoint':

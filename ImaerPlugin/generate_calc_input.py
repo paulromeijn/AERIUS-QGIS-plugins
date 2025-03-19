@@ -52,6 +52,7 @@ from ImaerPlugin.imaer6 import (
     AeriusCalculatorMetadata,
     Building,
     CalculationPoint,
+    CriticalLevel,
     NcaCustomCalculationPoint,
     CustomTimeVaryingProfile,
     CustomVehicle,
@@ -59,6 +60,7 @@ from ImaerPlugin.imaer6 import (
     EmissionSource,
     EmissionSourceCharacteristics,
     EmissionSourceType,
+    EntityReference,
     ImaerDocument,
     ReferenceTimeVaryingProfile,
     SpecifiedHeatContent,
@@ -470,7 +472,7 @@ class GenerateCalcInputDialog(QDialog, FORM_CLASS):
 
                 # if it is a calculation point layer
                 if input_layer['code'] == 'cp':
-                    cp = self.get_calculation_point_from_gui(feat, geom, local_id, crs_dest_srid)
+                    cp = self.get_calculation_point_from_gui(feat, geom, crs_dest_srid, local_id)
                     imaer_doc.feature_members.append(cp)
 
         # Custom Time Varying Profile
@@ -856,36 +858,44 @@ class GenerateCalcInputDialog(QDialog, FORM_CLASS):
         return b
 
     # CalculationPoints
-    def get_calculation_point_from_gui(self, feat, geom, local_id, epsg_id):
+    def get_calculation_point_from_gui(self, feat, geom, epsg_id, local_id):
+
         cp_id = self.get_feature_value(self.fcb_cp_id, feat)
         if cp_id is None:
             cp_id = local_id  # fall back to local_id
-        cp_label = self.get_feature_value(self.fcb_cp_label, feat)
-        print(cp_label)
-        cp_description = self.get_feature_value(self.fcb_cp_desc, feat)
-        cp_height = self.get_feature_value(self.fcb_cp_height, feat)
-        cp_category = self.get_feature_value(self.fcb_cp_category, feat)
-        cp_local_fraction_no2 = self.get_feature_value(self.fcb_cp_local_fraction_no2, feat)
 
         country = self.combo_country.currentData()
         if country == 'NL':
-            cp = CalculationPoint()
+            cp = CalculationPoint(local_id=cp_id)
         elif country == 'UK':
-            cp = NcaCustomCalculationPoint()
+            cp = NcaCustomCalculationPoint(local_id=cp_id)
         else:
             return None
 
-        cp.local_id = cp_id
         cp.gm_point = geom
         cp.epsg_id = epsg_id
-        cp.label = cp_label
-        cp.description = cp_description
-        cp.height = cp_height
-        cp.assessment_category = cp_category
-        cp.road_local_fraction_no2 = cp_local_fraction_no2
         
-        print(cp)
-        print(cp.gm_point)
+        cp.label = self.get_feature_value(self.fcb_cp_label, feat)
+        cp.height = self.get_feature_value(self.fcb_cp_height, feat)
+        cp.assessment_category = self.get_feature_value(self.fcb_cp_category, feat)
+        cp.road_local_fraction_no2 = self.get_feature_value(self.fcb_cp_local_fraction_no2, feat)
+        
+        if self.group_cp_er.isChecked():
+            er = EntityReference()
+            er.entity_type = self.get_feature_value(self.fcb_cp_er_type, feat)
+            er.description = self.get_feature_value(self.fcb_cp_desc, feat)
+
+            cl = self.get_feature_value(self.fcb_cp_er_cl_nox, feat)
+            if cl is not None:
+                er.critical_levels.append(CriticalLevel('CONCENTRATION', 'NOX', cl))
+            cl = self.get_feature_value(self.fcb_cp_er_cl_nh3, feat)
+            if cl is not None:
+                er.critical_levels.append(CriticalLevel('CONCENTRATION', 'NH3', cl))
+            cl = self.get_feature_value(self.fcb_cp_er_cl_nox, feat)
+            if cl is not None:
+                er.critical_levels.append(CriticalLevel('DEPOSITION', 'NOXNH3', cl))
+            cp.entity_reference = er
+
         return cp
 
     def open_time_varying_profile_dlg(self, tvp=None):

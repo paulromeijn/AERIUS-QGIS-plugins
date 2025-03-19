@@ -1710,65 +1710,134 @@
              <property name="title">
               <string>Values</string>
              </property>
-             <layout class="QFormLayout" name="formLayout_8">
-              <item row="0" column="0">
-               <widget class="QLabel" name="label_cp_id">
-                <property name="text">
-                 <string>id</string>
+             <layout class="QVBoxLayout" name="verticalLayout_12">
+              <item>
+               <layout class="QFormLayout" name="formLayout_8">
+                <item row="0" column="0">
+                 <widget class="QLabel" name="label_cp_id">
+                  <property name="text">
+                   <string>id</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <widget class="QgsFieldComboBox" name="fcb_cp_id"/>
+                </item>
+                <item row="1" column="1">
+                 <widget class="QgsFieldComboBox" name="fcb_cp_label"/>
+                </item>
+                <item row="1" column="0">
+                 <widget class="QLabel" name="label_cp_label">
+                  <property name="text">
+                   <string>label</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="1">
+                 <widget class="QgsFieldComboBox" name="fcb_cp_desc"/>
+                </item>
+                <item row="2" column="0">
+                 <widget class="QLabel" name="label_cp_desc">
+                  <property name="text">
+                   <string>description</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="1">
+                 <widget class="QgsFieldComboBox" name="fcb_cp_height"/>
+                </item>
+                <item row="3" column="0">
+                 <widget class="QLabel" name="label_cp_height">
+                  <property name="text">
+                   <string>height</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="4" column="1">
+                 <widget class="QgsFieldComboBox" name="fcb_cp_category"/>
+                </item>
+                <item row="4" column="0">
+                 <widget class="QLabel" name="label_cp_category">
+                  <property name="text">
+                   <string>category</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="5" column="1">
+                 <widget class="QgsFieldComboBox" name="fcb_cp_local_fraction_no2"/>
+                </item>
+                <item row="5" column="0">
+                 <widget class="QLabel" name="label_cp_local_fraction_no2">
+                  <property name="text">
+                   <string>road local fraction NO2</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <widget class="QGroupBox" name="group_cp_er">
+                <property name="title">
+                 <string>Entity Reference</string>
                 </property>
-               </widget>
-              </item>
-              <item row="0" column="1">
-               <widget class="QgsFieldComboBox" name="fcb_cp_id"/>
-              </item>
-              <item row="1" column="0">
-               <widget class="QLabel" name="label_cp_label">
-                <property name="text">
-                 <string>label</string>
+                <property name="checkable">
+                 <bool>true</bool>
                 </property>
-               </widget>
-              </item>
-              <item row="1" column="1">
-               <widget class="QgsFieldComboBox" name="fcb_cp_label"/>
-              </item>
-              <item row="2" column="0">
-               <widget class="QLabel" name="label_cp_desc">
-                <property name="text">
-                 <string>description</string>
+                <property name="checked">
+                 <bool>false</bool>
                 </property>
-               </widget>
-              </item>
-              <item row="2" column="1">
-               <widget class="QgsFieldComboBox" name="fcb_cp_desc"/>
-              </item>
-              <item row="3" column="0">
-               <widget class="QLabel" name="label_cp_height">
-                <property name="text">
-                 <string>height</string>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="1">
-               <widget class="QgsFieldComboBox" name="fcb_cp_height"/>
-              </item>
-              <item row="4" column="0">
-               <widget class="QLabel" name="label_cp_category">
-                <property name="text">
-                 <string>category</string>
-                </property>
-               </widget>
-              </item>
-              <item row="4" column="1">
-               <widget class="QgsFieldComboBox" name="fcb_cp_category"/>
-              </item>
-              <item row="5" column="1">
-               <widget class="QgsFieldComboBox" name="fcb_cp_local_fraction_no2"/>
-              </item>
-              <item row="5" column="0">
-               <widget class="QLabel" name="label_cp_local_fraction_no2">
-                <property name="text">
-                 <string>road local fraction NO2</string>
-                </property>
+                <layout class="QFormLayout" name="formLayout_17">
+                 <item row="0" column="1">
+                  <widget class="QgsFieldComboBox" name="fcb_cp_er_type"/>
+                 </item>
+                 <item row="0" column="0">
+                  <widget class="QLabel" name="label_cp_er_type">
+                   <property name="text">
+                    <string>entity type</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="0">
+                  <widget class="QLabel" name="label_cp_er_description">
+                   <property name="text">
+                    <string>description</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="1">
+                  <widget class="QgsFieldComboBox" name="fcb_cp_er_description"/>
+                 </item>
+                 <item row="2" column="0">
+                  <widget class="QLabel" name="label_cp_er_cl_nox">
+                   <property name="text">
+                    <string>critical level NOx</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="2" column="1">
+                  <widget class="QgsFieldComboBox" name="fcb_cp_er_cl_nox"/>
+                 </item>
+                 <item row="3" column="0">
+                  <widget class="QLabel" name="label_cp_er_cl_nh3">
+                   <property name="text">
+                    <string>critical level NH3</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="3" column="1">
+                  <widget class="QgsFieldComboBox" name="fcb_cp_er_cl_nh3"/>
+                 </item>
+                 <item row="4" column="0">
+                  <widget class="QLabel" name="label_cp_er_cl_load">
+                   <property name="text">
+                    <string>critical load</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="4" column="1">
+                  <widget class="QgsFieldComboBox" name="fcb_cp_er_cl_load"/>
+                 </item>
+                </layout>
                </widget>
               </item>
              </layout>
@@ -2050,11 +2119,6 @@
   <tabstop>fcb_bld_diameter</tabstop>
   <tabstop>scrollArea_3</tabstop>
   <tabstop>combo_layer_cp</tabstop>
-  <tabstop>fcb_cp_id</tabstop>
-  <tabstop>fcb_cp_label</tabstop>
-  <tabstop>fcb_cp_desc</tabstop>
-  <tabstop>fcb_cp_height</tabstop>
-  <tabstop>fcb_cp_category</tabstop>
   <tabstop>tableView_tvp</tabstop>
   <tabstop>button_tvp_add</tabstop>
   <tabstop>button_tvp_edit</tabstop>
