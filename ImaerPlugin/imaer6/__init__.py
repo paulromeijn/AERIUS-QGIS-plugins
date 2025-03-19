@@ -34,3 +34,7 @@ from .receptors import (
     CalculationPoint,
     NcaCustomCalculationPoint
 )
+from .entity_reference import (
+    CriticalLevel,
+    EntityReference
+)

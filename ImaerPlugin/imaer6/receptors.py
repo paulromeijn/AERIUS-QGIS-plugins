@@ -361,7 +361,7 @@ class SubPoint(Receptor):
 
 class CalculationPoint(Receptor):
 
-    def __init__(self, label=None, height=None, assessment_category=None, description=None, road_local_fraction_no2=None, **kwargs):
+    def __init__(self, label=None, height=None, assessment_category=None, description=None, road_local_fraction_no2=None, entity_reference=None, **kwargs):
         super().__init__(**kwargs)
 
         self.label = label
@@ -369,6 +369,7 @@ class CalculationPoint(Receptor):
         self.assessment_category = assessment_category
         self.description = description
         self.road_local_fraction_no2 = road_local_fraction_no2
+        self.entity_reference = entity_reference
 
     def __str__(self):
         class_name = self.__class__.__name__
@@ -408,6 +409,12 @@ class CalculationPoint(Receptor):
         if self.road_local_fraction_no2 is not None:
             elem = doc.createElement('imaer:roadLocalFractionNO2')
             elem.appendChild(doc.createTextNode(str(self.road_local_fraction_no2)))
+            result.appendChild(elem)
+
+        # entity_reference
+        if self.entity_reference is not None:
+            elem = doc.createElement('imaer:entityReference')
+            elem.appendChild(self.entity_reference.to_xml_elem(doc))
             result.appendChild(elem)
 
         return result

@@ -28,9 +28,10 @@ _GEOM2 = QgsGeometry.fromWkt('MULTIPOLYGON(((1 0, 2 1, 3 0, 2 -1, 1 0)))')
 _GEOM3 = QgsGeometry.fromWkt('LINESTRING((311279.0 723504.3, 311262.5 723349.6))')
 _GEOM4 = QgsGeometry.fromWkt('POLYGON((1 0, 2 1, 3 0, 2 -1, 1 0))')
 _GEOM_POINT_UK_1 = QgsGeometry.fromWkt('POINT(311618 723548)')
+_GEOM_POINT_UK_2 = QgsGeometry.fromWkt('POINT(311718 723648)')
 _GEOM_POLY_UK_1 = QgsGeometry.fromWkt('POLYGON((311608 723548, 311618 723558, 311628 723548, 311618 723538, 311608 723548))')
 
-_VALIDATE_XML = False
+_VALIDATE_XML = True
 
 # Load IMAER xsd for validation check. (Needs internet connection and can take pretty long.)
 # xsd_fn = os.path.join('test', 'xsd', 'IMAER_5.1.2.xsd')
@@ -277,7 +278,6 @@ class TestImaerGenerate(unittest.TestCase):
             height=2.34,
             assessment_category='MONITORING',
             description='Calculation point 888.',
-            road_local_fraction_no2=3.33
         )
         fcc.feature_members.append(cp)
         cp = CalculationPoint(
@@ -290,6 +290,40 @@ class TestImaerGenerate(unittest.TestCase):
         )
         fcc.feature_members.append(cp)
         self.generate_gml_file(fcc, 'calculation_points_02')
+
+    def test_create_calculation_points_with_critical_levels(self):
+        fcc = ImaerDocument()
+        er = EntityReference(
+            entity_type='CRITICAL_LEVEL_ENTITY',
+            description='Habitat'
+        )
+        er.critical_levels.append(CriticalLevel('CONCENTRATION', 'NOX', 88))
+        er.critical_levels.append(CriticalLevel('CONCENTRATION', 'NH3', 88.0))
+        er.critical_levels.append(CriticalLevel('DEPOSITION', 'NOXNH3', 88.8))
+        cp = NcaCustomCalculationPoint(
+            local_id=888,
+            geom=_GEOM_POINT_UK_1,
+            epsg_id=27700,
+            label='Pnt 888',
+            height=2.34,
+            assessment_category='MONITORING',
+            description='Calculation point 888.',
+            road_local_fraction_no2=0.888,
+            entity_reference=er,
+        )
+        fcc.feature_members.append(cp)
+        cp = CalculationPoint(
+            local_id=999,
+            geom=_GEOM_POINT_UK_2,
+            epsg_id=27700,
+            label='Pnt 999',
+            description='Calculation point 999.',
+            height=3.456,
+            assessment_category=None,
+            road_local_fraction_no2=None
+        )
+        fcc.feature_members.append(cp)
+        self.generate_gml_file(fcc, 'calculation_points_03')
 
     def test_custom_time_varying_profile_csv(self):
         fcc = ImaerDocument()
@@ -323,7 +357,7 @@ class TestImaerGenerate(unittest.TestCase):
         '''
         check = tvp.values_from_csv(csv_text)
         assert check is True
-        print(tvp.values_to_csv())
+        # print(tvp.values_to_csv())
         fcc.definitions.append(tvp)
         tvp = CustomTimeVaryingProfile(local_id=126, label='Test label 2', custom_type='DAY')
         csv_text = '''
@@ -354,6 +388,6 @@ class TestImaerGenerate(unittest.TestCase):
         '''
         check = tvp.values_from_csv(csv_text)
         assert check is True
-        print(tvp.values_to_csv())
+        # print(tvp.values_to_csv())
         fcc.definitions.append(tvp)
         self.generate_gml_file(fcc, 'time_varying_profile_01')
