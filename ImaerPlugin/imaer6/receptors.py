@@ -31,9 +31,8 @@ class CalculationResult(object):
         return result
 
     def from_xml_reader(self, xml_reader):
-        # print('--- 1', xml_reader.name(), xml_reader.isStartElement())
         if not xml_reader.name() == 'CalculationResult':
-            return
+            return None
         attributes = xml_reader.attributes()
         if attributes.hasAttribute('resultType'):
             self.result_type = attributes.value('resultType')
@@ -46,7 +45,7 @@ class CalculationResult(object):
             self.value = float(text)
 
 
-class Receptor(object):
+class Receptor():
 
     def __init__(self, local_id=None, identifier=None, geom=None, epsg_id=None, results=None):
         self.local_id = local_id
@@ -387,6 +386,12 @@ class CalculationPoint(Receptor):
             elem.appendChild(doc.createTextNode(str(self.label)))
             result.appendChild(elem)
 
+        # description
+        if self.description is not None:
+            elem = doc.createElement('imaer:description')
+            elem.appendChild(doc.createTextNode(str(self.description)))
+            result.appendChild(elem)
+
         # height
         if self.height is not None:
             elem = doc.createElement('imaer:height')
@@ -403,12 +408,6 @@ class CalculationPoint(Receptor):
         if self.road_local_fraction_no2 is not None:
             elem = doc.createElement('imaer:roadLocalFractionNO2')
             elem.appendChild(doc.createTextNode(str(self.road_local_fraction_no2)))
-            result.appendChild(elem)
-
-        # description
-        if self.description is not None:
-            elem = doc.createElement('imaer:description')
-            elem.appendChild(doc.createTextNode(str(self.description)))
             result.appendChild(elem)
 
         return result
