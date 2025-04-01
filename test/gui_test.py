@@ -2,23 +2,17 @@ import os
 
 plugin = qgis.utils.plugins['ImaerPlugin']
 
-user_work_dir = plugin.configuration_dlg.edit_work_dir.text()
-print(user_work_dir)
+def get_configuration():
+    country = plugin.configuration_dlg.combo_country.currentText()
+    crs = plugin.configuration_dlg.combo_crs.currentIndex()
+    work_dir = plugin.configuration_dlg.edit_work_dir.text()
+    return (country, crs, work_dir)
 
-demo_data_dir = os.path.join(plugin.plugin_dir, 'demodata')
-print(demo_data_dir)
-
-test_work_dir = os.path.join(QDir.tempPath(), 'imaer_plugin_gui_test')
-if not os.path.exists(test_work_dir):
-        os.makedirs(test_work_dir)
-
-# Settings
 def set_configuration(country=None, crs=None, work_dir=None):
     if country is not None:
         plugin.configuration_dlg.combo_country.setCurrentText(country)
     if crs is not None:
-        crs_dict = {28992: 1, 27700: 2}
-        plugin.configuration_dlg.combo_crs.setCurrentIndex(crs_dict[crs])
+        plugin.configuration_dlg.combo_crs.setCurrentIndex(crs)
     if work_dir is not None:
         plugin.configuration_dlg.edit_work_dir.setText(work_dir)
     
@@ -33,130 +27,177 @@ def load_configuration_file(cfg_fn):
     if result is False:
         print(f'Could not load configuration file ({cfg_fn})')
 
-set_configuration(country='NL', crs=28992, work_dir=test_work_dir)
-set_configuration(country='UK', crs=27700)
+def remove_tvps():
+    plugin.generate_calc_input_dlg.tvp_model.clear()
 
-# Add 2 tvp's
-plugin.generate_calc_input_dlg.tvp_model.clear()
+def add_tvps():
+    remove_tvps()
 
-#tvp 1
-plugin.generate_calc_input_dlg.time_varying_profile_dlg.lineEdit_id.setText('1')
-plugin.generate_calc_input_dlg.time_varying_profile_dlg.lineEdit_label.setText('Een')
-plugin.generate_calc_input_dlg.time_varying_profile_dlg.combo_custom_type.setCurrentText('THREE_DAY')
-csv = '1.0,0.9,1.2\n1.0,1.1,0.8\n' * 12
-plugin.generate_calc_input_dlg.time_varying_profile_dlg.plainTextEdit_csv.setPlainText(csv)
-tvp = plugin.generate_calc_input_dlg.time_varying_profile_dlg.get_tvp()
-plugin.generate_calc_input_dlg.add_tvp_to_table(tvp)
+    #tvp 1
+    plugin.generate_calc_input_dlg.time_varying_profile_dlg.lineEdit_id.setText('1')
+    plugin.generate_calc_input_dlg.time_varying_profile_dlg.lineEdit_label.setText('Een')
+    plugin.generate_calc_input_dlg.time_varying_profile_dlg.combo_custom_type.setCurrentText('THREE_DAY')
+    csv = '1.0,0.9,1.2\n1.0,1.1,0.8\n' * 12
+    plugin.generate_calc_input_dlg.time_varying_profile_dlg.plainTextEdit_csv.setPlainText(csv)
+    tvp = plugin.generate_calc_input_dlg.time_varying_profile_dlg.get_tvp()
+    plugin.generate_calc_input_dlg.add_tvp_to_table(tvp)
 
-#tvp 2
-plugin.generate_calc_input_dlg.time_varying_profile_dlg.lineEdit_id.setText('2')
-plugin.generate_calc_input_dlg.time_varying_profile_dlg.lineEdit_label.setText('Twee')
-plugin.generate_calc_input_dlg.time_varying_profile_dlg.combo_custom_type.setCurrentText('MONTHLY')
-csv = '0.12\n1.08\n2.04\n0.6\n1.2\n0.12\n1.08\n0.48\n0.96\n1.92\n1.08\n1.32\n'
-plugin.generate_calc_input_dlg.time_varying_profile_dlg.plainTextEdit_csv.setPlainText(csv)
-tvp = plugin.generate_calc_input_dlg.time_varying_profile_dlg.get_tvp()
-plugin.generate_calc_input_dlg.add_tvp_to_table(tvp)
+    #tvp 2
+    plugin.generate_calc_input_dlg.time_varying_profile_dlg.lineEdit_id.setText('2')
+    plugin.generate_calc_input_dlg.time_varying_profile_dlg.lineEdit_label.setText('Twee')
+    plugin.generate_calc_input_dlg.time_varying_profile_dlg.combo_custom_type.setCurrentText('MONTHLY')
+    csv = '0.12\n1.08\n2.04\n0.6\n1.2\n0.12\n1.08\n0.48\n0.96\n1.92\n1.08\n1.32\n'
+    plugin.generate_calc_input_dlg.time_varying_profile_dlg.plainTextEdit_csv.setPlainText(csv)
+    tvp = plugin.generate_calc_input_dlg.time_varying_profile_dlg.get_tvp()
+    plugin.generate_calc_input_dlg.add_tvp_to_table(tvp)
 
-#tvp 3
-plugin.generate_calc_input_dlg.time_varying_profile_dlg.lineEdit_id.setText('3')
-plugin.generate_calc_input_dlg.time_varying_profile_dlg.lineEdit_label.setText('Drie')
-plugin.generate_calc_input_dlg.time_varying_profile_dlg.combo_custom_type.setCurrentText('THREE_DAY')
-csv = '''0.9,1.0,1.0
-0.9,1.0,1.0
-0.9,1.0,1.0
-1.0,1.0,1.0
-1.0,1.0,1.0
-1.0,1.0,1.0
-1.0,1.0,1.0
-1.0,1.0,1.0
-1.1,1.0,1.0
-1.1,1.0,1.0
-1.2,1.0,1.0
-1.1,1.0,1.0
-1.0,1.0,1.0
-1.0,1.0,1.0
-1.0,1.0,1.0
-1.0,1.0,1.0
-1.0,1.0,1.0
-1.0,1.0,1.0
-1.0,1.0,1.0
-1.0,1.0,1.0
-1.0,1.0,1.0
-1.0,1.0,1.0
-0.9,1.0,1.0
-0.9,1.0,1.0'''
-plugin.generate_calc_input_dlg.time_varying_profile_dlg.plainTextEdit_csv.setPlainText(csv)
-tvp = plugin.generate_calc_input_dlg.time_varying_profile_dlg.get_tvp()
-plugin.generate_calc_input_dlg.add_tvp_to_table(tvp)
+    #tvp 3
+    plugin.generate_calc_input_dlg.time_varying_profile_dlg.lineEdit_id.setText('3')
+    plugin.generate_calc_input_dlg.time_varying_profile_dlg.lineEdit_label.setText('Drie')
+    plugin.generate_calc_input_dlg.time_varying_profile_dlg.combo_custom_type.setCurrentText('THREE_DAY')
+    csv = '''0.9,1.0,1.0
+    0.9,1.0,1.0
+    0.9,1.0,1.0
+    1.0,1.0,1.0
+    1.0,1.0,1.0
+    1.0,1.0,1.0
+    1.0,1.0,1.0
+    1.0,1.0,1.0
+    1.1,1.0,1.0
+    1.1,1.0,1.0
+    1.2,1.0,1.0
+    1.1,1.0,1.0
+    1.0,1.0,1.0
+    1.0,1.0,1.0
+    1.0,1.0,1.0
+    1.0,1.0,1.0
+    1.0,1.0,1.0
+    1.0,1.0,1.0
+    1.0,1.0,1.0
+    1.0,1.0,1.0
+    1.0,1.0,1.0
+    1.0,1.0,1.0
+    0.9,1.0,1.0
+    0.9,1.0,1.0'''
+    plugin.generate_calc_input_dlg.time_varying_profile_dlg.plainTextEdit_csv.setPlainText(csv)
+    tvp = plugin.generate_calc_input_dlg.time_varying_profile_dlg.get_tvp()
+    plugin.generate_calc_input_dlg.add_tvp_to_table(tvp)
 
 # Generate GML
 
-# uk roads
-fn = os.path.join(demo_data_dir, 'test_input_uk.gpkg')
-ln = 'Traffic_shapefile_UK_27700'
-layer_roads = QgsVectorLayer(f'{fn}|layername={ln}', 'test_input_uk_roads')
-QgsProject.instance().addMapLayer(layer_roads)
-plugin.generate_calc_input_dlg.combo_layer_rd.setLayer(layer_roads)
+def generate_gml_uk_roads(delete_layers=True):
+    set_configuration(country='UK', crs=2, work_dir=test_work_dir)
 
-cfg_fn = os.path.join(demo_data_dir, 'generate_gml_config_uk_roads.json')
-load_configuration_file(cfg_fn)
+    fn = os.path.join(demo_data_dir, 'test_input_uk.gpkg')
+    ln = 'Traffic_shapefile_UK_27700'
+    layer_roads = QgsVectorLayer(f'{fn}|layername={ln}', f'test_{ln}')
+    QgsProject.instance().addMapLayer(layer_roads)
+    plugin.generate_calc_input_dlg.combo_layer_rd.setLayer(layer_roads)
 
-# tvp
-plugin.generate_calc_input_dlg.checkBox_tvp.setChecked(True)
+    cfg_fn = os.path.join(demo_data_dir, 'generate_gml_config_uk_roads.json')
+    load_configuration_file(cfg_fn)
 
-gml_fn = os.path.join(work_dir, 'test_uk_roads.gml')
-plugin.generate_calc_input_dlg.edit_outfile.setText(gml_fn)
-plugin.generate_calc_input_dlg.generate_imaer_gml()
+    gml_fn = os.path.join(work_dir, 'test_uk_roads.gml')
+    plugin.generate_calc_input_dlg.edit_outfile.setText(gml_fn)
+    plugin.generate_calc_input_dlg.generate_imaer_gml()
 
-QgsProject.instance().removeMapLayers([layer_roads.id()])
+    if delete_layers:
+        QgsProject.instance().removeMapLayers([layer_roads.id()])
 
-# uk generic and buildings
-fn = os.path.join(demo_data_dir, 'test_input_uk.gpkg')
+def generate_gml_uk_points_buildings(delete_layers=True):
+    # uk generic and buildings
+    set_configuration(country='UK', crs=2, work_dir=test_work_dir)
+    fn = os.path.join(demo_data_dir, 'test_input_uk.gpkg')
 
-ln = 'generic_points_uk'
-layer_points = QgsVectorLayer(f'{fn}|layername={ln}', 'test_input_points')
-QgsProject.instance().addMapLayer(layer_points)
-plugin.generate_calc_input_dlg.combo_layer_es.setLayer(layer_points)
+    ln = 'generic_points_uk'
+    layer_points = QgsVectorLayer(f'{fn}|layername={ln}', f'test_{ln}')
+    QgsProject.instance().addMapLayer(layer_points)
+    plugin.generate_calc_input_dlg.combo_layer_es.setLayer(layer_points)
 
-ln = 'buildings_polygon_uk'
-layer_buildings = QgsVectorLayer(f'{fn}|layername={ln}', 'test_input_buildings')
-QgsProject.instance().addMapLayer(layer_buildings)
-plugin.generate_calc_input_dlg.combo_layer_bld.setLayer(layer_buildings)
+    ln = 'buildings_polygon_uk'
+    layer_buildings = QgsVectorLayer(f'{fn}|layername={ln}', f'test_{ln}')
+    QgsProject.instance().addMapLayer(layer_buildings)
+    plugin.generate_calc_input_dlg.combo_layer_bld.setLayer(layer_buildings)
 
-cfg_fn = os.path.join(demo_data_dir, 'generate_gml_config_uk_points_buildings.json')
-load_configuration_file(cfg_fn)
+    cfg_fn = os.path.join(demo_data_dir, 'generate_gml_config_uk_points_buildings.json')
+    load_configuration_file(cfg_fn)
 
-# No tvp here
-plugin.generate_calc_input_dlg.checkBox_tvp.setChecked(False)
+    gml_fn = os.path.join(work_dir, f'test_uk_{ln}.gml')
+    plugin.generate_calc_input_dlg.edit_outfile.setText(gml_fn)
+    plugin.generate_calc_input_dlg.generate_imaer_gml()
 
-gml_fn = os.path.join(work_dir, 'test_uk_points_buildings.gml')
-plugin.generate_calc_input_dlg.edit_outfile.setText(gml_fn)
-plugin.generate_calc_input_dlg.generate_imaer_gml()
+    if delete_layers:
+        QgsProject.instance().removeMapLayers([layer_points.id(), layer_buildings.id()])
 
-QgsProject.instance().removeMapLayers([layer_points.id()])
-QgsProject.instance().removeMapLayers([layer_buildings.id()])
+def generate_gml_uk_calculation_points(delete_layers=True):
+    # uk calculation_points
+    set_configuration(country='UK', crs=2, work_dir=test_work_dir)
+    fn = os.path.join(demo_data_dir, 'test_input_uk.gpkg')
+    ln = 'calculation_points'
 
-# uk generic and time varying profiles
+    layer_points = QgsVectorLayer(f'{fn}|layername={ln}', f'test_{ln}')
+    QgsProject.instance().addMapLayer(layer_points)
+    plugin.generate_calc_input_dlg.combo_layer_es.setLayer(layer_points)
 
-fn = os.path.join(demo_data_dir, 'test_input_uk.gpkg')
+    cfg_fn = os.path.join(demo_data_dir, f'generate_gml_config_uk_{ln}.json')
+    load_configuration_file(cfg_fn)
 
-ln = 'generic_points_uk'
-layer_points = QgsVectorLayer(f'{fn}|layername={ln}', 'test_input_points')
-QgsProject.instance().addMapLayer(layer_points)
-plugin.generate_calc_input_dlg.combo_layer_es.setLayer(layer_points)
+    gml_fn = os.path.join(work_dir, f'test_uk_{ln}.gml')
+    plugin.generate_calc_input_dlg.edit_outfile.setText(gml_fn)
+    plugin.generate_calc_input_dlg.generate_imaer_gml()
 
-cfg_fn = os.path.join(demo_data_dir, 'generate_gml_config_uk_points_tvp.json')
-load_configuration_file(cfg_fn)
+    if delete_layers:
+        QgsProject.instance().removeMapLayers([layer_points.id()])
 
-plugin.generate_calc_input_dlg.checkBox_tvp.setChecked(True)
+def generate_gml_uk_points_tvp(delete_layers=True):
+    # uk generic and time varying profiles
+    set_configuration(country='UK', crs=2, work_dir=test_work_dir)
+    fn = os.path.join(demo_data_dir, 'test_input_uk.gpkg')
 
-gml_fn = os.path.join(work_dir, 'test_uk_points_tvp.gml')
-plugin.generate_calc_input_dlg.edit_outfile.setText(gml_fn)
-plugin.generate_calc_input_dlg.generate_imaer_gml()
+    ln = 'generic_points_uk'
+    layer_points = QgsVectorLayer(f'{fn}|layername={ln}', f'test_{ln}')
+    QgsProject.instance().addMapLayer(layer_points)
+    plugin.generate_calc_input_dlg.combo_layer_es.setLayer(layer_points)
+
+    cfg_fn = os.path.join(demo_data_dir, 'generate_gml_config_uk_points_tvp.json')
+    load_configuration_file(cfg_fn)
+
+    gml_fn = os.path.join(work_dir, f'test_uk_{ln}.gml')
+    plugin.generate_calc_input_dlg.edit_outfile.setText(gml_fn)
+    plugin.generate_calc_input_dlg.generate_imaer_gml()
+
+    if delete_layers:
+        QgsProject.instance().removeMapLayers([layer_points.id()])
 
 
-QgsProject.instance().removeMapLayers([layer_points.id()])
 
-set_configuration(work_dir=old_work_dir)
+#set_configuration(country='NL', crs=1, work_dir=test_work_dir)
+#set_configuration(country='UK', crs=2, work_dir=test_work_dir)
+
+plugin_dir = os.path.dirname(os.path.dirname(__file__))
+print(plugin_dir)
+
+user_config = get_configuration()
+print(user_config)
+
+demo_data_dir = os.path.join(plugin_dir, 'demodata')
+print(demo_data_dir)
+
+test_work_dir = os.path.join(QDir.tempPath(), 'imaer_plugin_gui_test')
+if not os.path.exists(test_work_dir):
+    os.makedirs(test_work_dir)
+
+# run tests
+add_tvps()
+
+#generate_gml_uk_roads(False)
+#generate_gml_uk_points_buildings(False)
+#generate_gml_uk_calculation_points(False)
+generate_gml_uk_points_tvp(False)
+
+remove_tvps()
+
+# restore configuration
+set_configuration(*user_config)
 
 print('Done')
