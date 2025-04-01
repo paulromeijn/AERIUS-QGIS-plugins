@@ -1,6 +1,6 @@
 import os
 
-demo_data_dir = '/home/raymond/git/AERIUS-QGIS-plugins/demodata/'
+demo_data_dir = '/home/raymond/git/IMAER-QGIS-plugin/demodata/'
 old_work_dir = '/home/raymond/imaer_plugin'
 
 work_dir = os.path.join(QDir.tempPath(), 'imaer_plugin_gui_test')
