@@ -84,7 +84,21 @@ emission_sectors = {
     'calc_points': {
         'emission_tab': 'tab_calc_points',
         'tab_name': 'Calculation Points',
-        'sector_id': 9997
+        'sector_id': 9997,
+        'ui_settings': {
+            'default': {
+                'disable_widgets': [],
+            },
+            'NL': {
+                'disable_widgets': [
+                    'label_cp_local_fraction_no2', 'fcb_cp_local_fraction_no2',
+                    'group_cp_er',
+                ]
+            },
+            'UK': {
+                'disable_widgets': []
+            }
+        }
     },
     'time_varying_profiles': {
         'emission_tab': 'tab_time_varying_profiles',

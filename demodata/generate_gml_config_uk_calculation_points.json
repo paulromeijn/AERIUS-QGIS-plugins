@@ -1,0 +1,33 @@
+{
+    "imaer_plugin_version": "3.6.1",
+    "options": {
+        "group_input_es": false,
+        "radioButton_es": true,
+        "radioButton_rd": false,
+        "checkBox_bld": false,
+        "checkBox_cp": true,
+        "checkBox_tvp": false,
+        "combo_project_year": "2024",
+        "edit_project_description": "",
+        "group_situation": false,
+        "edit_situation_name": "Scenario 1",
+        "combo_situation_type": "COMBINATION_PROPOSED",
+        "radio_veh_page_custom": true,
+        "radio_veh_page_eft": false,
+        "fcb_rd_v_eft_units": "p/24 hour",
+        "group_cp_er": true
+    },
+    "fields": {
+        "fcb_cp_id": "id",
+        "fcb_cp_label": "label",
+        "fcb_cp_desc": "description",
+        "fcb_cp_height": "height",
+        "fcb_cp_category": "category",
+        "fcb_cp_local_fraction_no2": "fraction_no2",
+        "fcb_cp_er_type": "entity_type",
+        "fcb_cp_er_description": "entity_description",
+        "fcb_cp_er_cl_nox": "level_conc_nox",
+        "fcb_cp_er_cl_nh3": "level_conc_nh3",
+        "fcb_cp_er_cl_load": "level_dep_noxnh3"
+    }
+}

@@ -878,9 +878,10 @@ class GenerateCalcInputDialog(QDialog, FORM_CLASS):
         cp.label = self.get_feature_value(self.fcb_cp_label, feat)
         cp.height = self.get_feature_value(self.fcb_cp_height, feat)
         cp.assessment_category = self.get_feature_value(self.fcb_cp_category, feat)
-        cp.road_local_fraction_no2 = self.get_feature_value(self.fcb_cp_local_fraction_no2, feat)
+        if country == 'UK':
+            cp.road_local_fraction_no2 = self.get_feature_value(self.fcb_cp_local_fraction_no2, feat)
         
-        if self.group_cp_er.isChecked():
+        if country == 'UK' and self.group_cp_er.isChecked():
             er = EntityReference()
             er.entity_type = self.get_feature_value(self.fcb_cp_er_type, feat)
             er.description = self.get_feature_value(self.fcb_cp_desc, feat)
@@ -891,7 +892,7 @@ class GenerateCalcInputDialog(QDialog, FORM_CLASS):
             cl = self.get_feature_value(self.fcb_cp_er_cl_nh3, feat)
             if cl is not None:
                 er.critical_levels.append(CriticalLevel('CONCENTRATION', 'NH3', cl))
-            cl = self.get_feature_value(self.fcb_cp_er_cl_nox, feat)
+            cl = self.get_feature_value(self.fcb_cp_er_cl_load, feat)
             if cl is not None:
                 er.critical_levels.append(CriticalLevel('DEPOSITION', 'NOXNH3', cl))
             cp.entity_reference = er
@@ -980,7 +981,7 @@ class GenerateCalcInputDialog(QDialog, FORM_CLASS):
             work_dir = self.plugin.settings.value('imaer_plugin/work_dir', defaultValue=None)
 
             if work_dir is None:
-                self.plugin.log('Work direction not set.', lvl='Critical', bar=True)
+                self.plugin.log('Work directory not set.', lvl='Critical', bar=True)
                 return False
 
             # TODO: choose file name
@@ -1019,6 +1020,7 @@ class GenerateCalcInputDialog(QDialog, FORM_CLASS):
             'combo_project_year', 'edit_project_description',
             'group_situation', 'edit_situation_name', 'combo_situation_type',
             'radio_veh_page_custom', 'radio_veh_page_eft', 'fcb_rd_v_eft_units',
+            'group_cp_er',
         ]
         for widget_name in widget_names:
             widget = getattr(self, widget_name)
@@ -1036,7 +1038,8 @@ class GenerateCalcInputDialog(QDialog, FORM_CLASS):
         for fcb in self.findChildren(QgsFieldComboBox):
             k = fcb.objectName()
             v = fcb.currentText()
-            result['fields'][k] = v
+            if not v == '':
+                result['fields'][k] = v
 
         return result
 
@@ -1060,16 +1063,25 @@ class GenerateCalcInputDialog(QDialog, FORM_CLASS):
         # fields
         for fcb in self.findChildren(QgsFieldComboBox):
             widget_name = fcb.objectName()
+            
+            # widget name is not in json
             if widget_name not in settings_cfg['fields']:
+                fcb.setCurrentIndex(0)  # Make empty
                 continue
+
+            # widget     
             new_field = settings_cfg['fields'][widget_name]
             if new_field == '':
                 fcb.setCurrentIndex(0)  # Make empty
                 continue
-            if new_field in fcb.fields().names():
-                fcb.setCurrentText(new_field)
-            else:
+            
+            # field name not in layer
+            if new_field not in fcb.fields().names():
                 fcb.setCurrentIndex(0)  # Make empty
+                continue
+
+            # set field name
+            fcb.setCurrentText(new_field)
 
     def make_single_part(self, geom):
         '''Returns single part geometry or None if input has more than 1 part'''

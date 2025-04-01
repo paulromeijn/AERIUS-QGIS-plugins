@@ -190,9 +190,9 @@ if not os.path.exists(test_work_dir):
 # run tests
 add_tvps()
 
-#generate_gml_uk_roads(False)
-#generate_gml_uk_points_buildings(False)
-#generate_gml_uk_calculation_points(False)
+generate_gml_uk_roads(False)
+generate_gml_uk_points_buildings(False)
+generate_gml_uk_calculation_points(False)
 generate_gml_uk_points_tvp(False)
 
 remove_tvps()
