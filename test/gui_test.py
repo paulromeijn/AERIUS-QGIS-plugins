@@ -1,13 +1,16 @@
 import os
 
-demo_data_dir = '/home/raymond/git/IMAER-QGIS-plugin/demodata/'
-old_work_dir = '/home/raymond/imaer_plugin'
-
-work_dir = os.path.join(QDir.tempPath(), 'imaer_plugin_gui_test')
-if not os.path.exists(work_dir):
-        os.makedirs(work_dir)
-
 plugin = qgis.utils.plugins['ImaerPlugin']
+
+user_work_dir = plugin.configuration_dlg.edit_work_dir.text()
+print(user_work_dir)
+
+demo_data_dir = os.path.join(plugin.plugin_dir, 'demodata')
+print(demo_data_dir)
+
+test_work_dir = os.path.join(QDir.tempPath(), 'imaer_plugin_gui_test')
+if not os.path.exists(test_work_dir):
+        os.makedirs(test_work_dir)
 
 # Settings
 def set_configuration(country=None, crs=None, work_dir=None):
@@ -30,7 +33,7 @@ def load_configuration_file(cfg_fn):
     if result is False:
         print(f'Could not load configuration file ({cfg_fn})')
 
-set_configuration(country='NL', crs=28992, work_dir=work_dir)
+set_configuration(country='NL', crs=28992, work_dir=test_work_dir)
 set_configuration(country='UK', crs=27700)
 
 # Add 2 tvp's
@@ -154,6 +157,6 @@ plugin.generate_calc_input_dlg.generate_imaer_gml()
 
 QgsProject.instance().removeMapLayers([layer_points.id()])
 
-#set_configuration(work_dir=old_work_dir)
+set_configuration(work_dir=old_work_dir)
 
 print('Done')
