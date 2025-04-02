@@ -170,10 +170,8 @@ def generate_gml_uk_points_tvp(delete_layers=True):
         QgsProject.instance().removeMapLayers([layer_points.id()])
 
 
-#set_configuration(country='NL', crs=1, work_dir=test_work_dir)
-#set_configuration(country='UK', crs=2, work_dir=test_work_dir)
-
 test_dir = os.path.dirname(__file__)
+# print(test_dir)
 plugin_dir = os.path.dirname(test_dir)
 # print(plugin_dir)
 
@@ -181,11 +179,12 @@ user_config = get_configuration()
 print('current user config:', user_config)
 
 test_input_dir = os.path.join(test_dir, 'input')
-print(test_input_dir)
+# print(test_input_dir)
 
 test_work_dir = os.path.join(QDir.tempPath(), 'imaer_plugin_gui_test')
 if not os.path.exists(test_work_dir):
     os.makedirs(test_work_dir)
+# print(test_work_dir)
 
 delete_layers = True
 
