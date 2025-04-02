@@ -51,7 +51,9 @@ The id field should contain the same integer value as used in the emission sourc
 
 ![dialog](img/generate_aerius_calculator_input_dlg_cp.png)
 
-Those are typically stand alone GML files to upload to AERIUS Connect for calulating depositions at your peronally picked locations. The input must be a point layer.
+Those are typically stand alone GML files to upload to AERIUS Connect for calculating depositions at your personally picked locations. The input must be a point layer.
+
+Only in the UK it's possible to add `road local fraction NO2` and `Entity Reference` values.
 
 ### Time Varying Profiles
 
