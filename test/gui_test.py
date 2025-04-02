@@ -88,13 +88,13 @@ def add_tvps():
 def generate_gml_uk_roads(delete_layers=True):
     set_configuration(country='UK', crs=2, work_dir=test_work_dir)
 
-    fn = os.path.join(demo_data_dir, 'test_input_uk.gpkg')
+    fn = os.path.join(test_input_dir, 'test_input_uk.gpkg')
     ln = 'Traffic_shapefile_UK_27700'
     layer_roads = QgsVectorLayer(f'{fn}|layername={ln}', f'test_{ln}')
     QgsProject.instance().addMapLayer(layer_roads)
     plugin.generate_calc_input_dlg.combo_layer_rd.setLayer(layer_roads)
 
-    cfg_fn = os.path.join(demo_data_dir, 'generate_gml_config_uk_roads.json')
+    cfg_fn = os.path.join(test_input_dir, 'generate_gml_config_uk_roads.json')
     load_configuration_file(cfg_fn)
 
     gml_fn = os.path.join(work_dir, 'test_uk_roads.gml')
@@ -107,7 +107,7 @@ def generate_gml_uk_roads(delete_layers=True):
 def generate_gml_uk_points_buildings(delete_layers=True):
     # uk generic and buildings
     set_configuration(country='UK', crs=2, work_dir=test_work_dir)
-    fn = os.path.join(demo_data_dir, 'test_input_uk.gpkg')
+    fn = os.path.join(test_input_dir, 'test_input_uk.gpkg')
 
     ln = 'generic_points_uk'
     layer_points = QgsVectorLayer(f'{fn}|layername={ln}', f'test_{ln}')
@@ -119,7 +119,7 @@ def generate_gml_uk_points_buildings(delete_layers=True):
     QgsProject.instance().addMapLayer(layer_buildings)
     plugin.generate_calc_input_dlg.combo_layer_bld.setLayer(layer_buildings)
 
-    cfg_fn = os.path.join(demo_data_dir, 'generate_gml_config_uk_points_buildings.json')
+    cfg_fn = os.path.join(test_input_dir, 'generate_gml_config_uk_points_buildings.json')
     load_configuration_file(cfg_fn)
 
     gml_fn = os.path.join(work_dir, f'test_uk_{ln}.gml')
@@ -132,14 +132,14 @@ def generate_gml_uk_points_buildings(delete_layers=True):
 def generate_gml_uk_calculation_points(delete_layers=True):
     # uk calculation_points
     set_configuration(country='UK', crs=2, work_dir=test_work_dir)
-    fn = os.path.join(demo_data_dir, 'test_input_uk.gpkg')
+    fn = os.path.join(test_input_dir, 'test_input_uk.gpkg')
     ln = 'calculation_points'
 
     layer_points = QgsVectorLayer(f'{fn}|layername={ln}', f'test_{ln}')
     QgsProject.instance().addMapLayer(layer_points)
     plugin.generate_calc_input_dlg.combo_layer_es.setLayer(layer_points)
 
-    cfg_fn = os.path.join(demo_data_dir, f'generate_gml_config_uk_{ln}.json')
+    cfg_fn = os.path.join(test_input_dir, f'generate_gml_config_uk_{ln}.json')
     load_configuration_file(cfg_fn)
 
     gml_fn = os.path.join(work_dir, f'test_uk_{ln}.gml')
@@ -152,14 +152,14 @@ def generate_gml_uk_calculation_points(delete_layers=True):
 def generate_gml_uk_points_tvp(delete_layers=True):
     # uk generic and time varying profiles
     set_configuration(country='UK', crs=2, work_dir=test_work_dir)
-    fn = os.path.join(demo_data_dir, 'test_input_uk.gpkg')
+    fn = os.path.join(test_input_dir, 'test_input_uk.gpkg')
 
     ln = 'generic_points_uk'
     layer_points = QgsVectorLayer(f'{fn}|layername={ln}', f'test_{ln}')
     QgsProject.instance().addMapLayer(layer_points)
     plugin.generate_calc_input_dlg.combo_layer_es.setLayer(layer_points)
 
-    cfg_fn = os.path.join(demo_data_dir, 'generate_gml_config_uk_points_tvp.json')
+    cfg_fn = os.path.join(test_input_dir, 'generate_gml_config_uk_points_tvp.json')
     load_configuration_file(cfg_fn)
 
     gml_fn = os.path.join(work_dir, f'test_uk_{ln}.gml')
@@ -170,30 +170,32 @@ def generate_gml_uk_points_tvp(delete_layers=True):
         QgsProject.instance().removeMapLayers([layer_points.id()])
 
 
-
 #set_configuration(country='NL', crs=1, work_dir=test_work_dir)
 #set_configuration(country='UK', crs=2, work_dir=test_work_dir)
 
-plugin_dir = os.path.dirname(os.path.dirname(__file__))
-print(plugin_dir)
+test_dir = os.path.dirname(__file__)
+plugin_dir = os.path.dirname(test_dir)
+# print(plugin_dir)
 
 user_config = get_configuration()
-print(user_config)
+print('current user config:', user_config)
 
-demo_data_dir = os.path.join(plugin_dir, 'demodata')
-print(demo_data_dir)
+test_input_dir = os.path.join(test_dir, 'input')
+print(test_input_dir)
 
 test_work_dir = os.path.join(QDir.tempPath(), 'imaer_plugin_gui_test')
 if not os.path.exists(test_work_dir):
     os.makedirs(test_work_dir)
 
+delete_layers = True
+
 # run tests
 add_tvps()
 
-generate_gml_uk_roads(False)
-generate_gml_uk_points_buildings(False)
-generate_gml_uk_calculation_points(False)
-generate_gml_uk_points_tvp(False)
+generate_gml_uk_roads(delete_layers)
+generate_gml_uk_points_buildings(delete_layers)
+generate_gml_uk_calculation_points(delete_layers)
+generate_gml_uk_points_tvp(delete_layers)
 
 remove_tvps()
 
