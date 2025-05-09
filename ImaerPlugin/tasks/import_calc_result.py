@@ -93,48 +93,45 @@ class ImportImaerCalculatorResultTask(QgsTask):
         sub_points_layer = None
         calculation_points_layer = None
 
-        member_cnt = 0
-
         for member in doc.feature_members:
             # self.log(member.__class__.__name__)
             if member.__class__.__name__ == 'ReceptorPoint':
-                if receptor_points_layer is None:
-                    epsg_id = int(member.gm_point.epsg_id)
-                    gpkg.create_layer_receptor_points(epsg_id)
-                    receptor_points_layer = QgsVectorLayer(f'{self.gpkg_fn}|layername=receptor_points', 'receptor_points', 'ogr')
-                    receptor_points_layer.startEditing()
-                if receptor_hexagons_layer is None:
-                    epsg_id = int(member.representation.epsg_id)
-                    gpkg.create_layer_receptor_hexagons(epsg_id)
-                    receptor_hexagons_layer = QgsVectorLayer(f'{self.gpkg_fn}|layername=receptor_hexagons', 'receptor_hexagons', 'ogr')
-                    receptor_hexagons_layer.startEditing()
-
                 feat = member.to_point_feature()
-                receptor_points_layer.addFeature(feat)
-
+                if feat is not None:
+                    if receptor_points_layer is None:
+                        epsg_id = int(member.gm_point.epsg_id)
+                        gpkg.create_layer_receptor_points(epsg_id)
+                        receptor_points_layer = QgsVectorLayer(f'{self.gpkg_fn}|layername=receptor_points', 'receptor_points', 'ogr')
+                        receptor_points_layer.startEditing()
+                    receptor_points_layer.addFeature(feat)
                 feat = member.to_polygon_feature()
-                receptor_hexagons_layer.addFeature(feat)
+                if feat is not None:
+                    if receptor_hexagons_layer is None:
+                        epsg_id = int(member.representation.epsg_id)
+                        gpkg.create_layer_receptor_hexagons(epsg_id)
+                        receptor_hexagons_layer = QgsVectorLayer(f'{self.gpkg_fn}|layername=receptor_hexagons', 'receptor_hexagons', 'ogr')
+                        receptor_hexagons_layer.startEditing()
+                    receptor_hexagons_layer.addFeature(feat)
 
-                member_cnt += 1
             elif member.__class__.__name__ == 'SubPoint':
-                if sub_points_layer is None:
-                    epsg_id = int(member.gm_point.epsg_id)
-                    gpkg.create_layer_sub_points(epsg_id)
-                    sub_points_layer = QgsVectorLayer(f'{self.gpkg_fn}|layername=sub_points', 'sub_points', 'ogr')
-                    sub_points_layer.startEditing()
                 feat = member.to_point_feature()
-                sub_points_layer.addFeature(feat)
-                member_cnt += 1
+                if feat is not None:
+                    if sub_points_layer is None:
+                        epsg_id = int(member.gm_point.epsg_id)
+                        gpkg.create_layer_sub_points(epsg_id)
+                        sub_points_layer = QgsVectorLayer(f'{self.gpkg_fn}|layername=sub_points', 'sub_points', 'ogr')
+                        sub_points_layer.startEditing()
+                    sub_points_layer.addFeature(feat)
 
             elif member.__class__.__name__ == 'CalculationPoint':
-                if calculation_points_layer is None:
-                    epsg_id = int(member.gm_point.epsg_id)
-                    gpkg.create_layer_calculation_points(epsg_id)
-                    calculation_points_layer = QgsVectorLayer(f'{self.gpkg_fn}|layername=calculation_points', 'calcultion_points', 'ogr')
-                    calculation_points_layer.startEditing()
                 feat = member.to_point_feature()
-                calculation_points_layer.addFeature(feat)
-                member_cnt += 1
+                if feat is not None:
+                    if calculation_points_layer is None:
+                        epsg_id = int(member.gm_point.epsg_id)
+                        gpkg.create_layer_calculation_points(epsg_id)
+                        calculation_points_layer = QgsVectorLayer(f'{self.gpkg_fn}|layername=calculation_points', 'calcultion_points', 'ogr')
+                        calculation_points_layer.startEditing()
+                    calculation_points_layer.addFeature(feat)
 
         self.setProgress(80)
 

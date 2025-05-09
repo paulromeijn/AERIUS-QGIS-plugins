@@ -3,6 +3,7 @@ from qgis.core import QgsFeature
 from .geometry import GmlPoint, GmlPolygon
 from .identifier import Nen3610Id
 from .gml import get_gml_element
+from ..gpkg.field_factory import field_config
 
 class CalculationResult(object):
 
@@ -231,7 +232,10 @@ class Receptor():
         result.update(self.get_results_dict())
 
         # Add sum for depositions
-        result['deposition_nox_nh3_sum'] = (result['deposition_nh3'] or 0) + (result['deposition_nox'] or 0)
+        if result['deposition_nh3'] is None and result['deposition_nox'] is None:
+            result['deposition_nox_nh3_sum']
+        else:
+            result['deposition_nox_nh3_sum'] = (result['deposition_nh3'] or 0) + (result['deposition_nox'] or 0)
 
         return result
 
@@ -259,6 +263,8 @@ class ReceptorPoint(Receptor):
 
         attr_dict = self.get_attributes_dict()
         attributes.append(attr_dict['receptor_id'])
+
+        first_result_attribute = len(attributes)
         attributes.append(attr_dict['concentration_nox'])
         attributes.append(attr_dict['concentration_no2'])
         attributes.append(attr_dict['concentration_nh3'])
@@ -268,6 +274,11 @@ class ReceptorPoint(Receptor):
         attributes.append(attr_dict['exceedance_days_pm25'])
         attributes.append(attr_dict['exceedance_hours_pm10'])
         attributes.append(attr_dict['exceedance_hours_pm25'])
+
+        # Return None if feature does not have any result values
+        if all(v is None for v in attributes[first_result_attribute:]):
+            return None
+
         feat.setAttributes(attributes)
         return feat
 
@@ -284,9 +295,15 @@ class ReceptorPoint(Receptor):
         attr_dict = self.get_attributes_dict()
         attributes.append(attr_dict['receptor_id'])
         attributes.append(attr_dict['edge_effect'])
+
+        first_result_attribute = len(attributes)
         attributes.append(attr_dict['deposition_nox_nh3_sum'])
         attributes.append(attr_dict['deposition_nox'])
         attributes.append(attr_dict['deposition_nh3'])
+
+        # Return None if feature does not have any result values
+        if all(v is None for v in attributes[first_result_attribute:]):
+            return None
 
         feat.setAttributes(attributes)
         return feat
@@ -331,6 +348,8 @@ class SubPoint(Receptor):
         attributes.append(self.level)
 
         attr_dict = self.get_attributes_dict()
+
+        first_result_attribute = len(attributes)
         attributes.append(attr_dict['deposition_nox_nh3_sum'])
         attributes.append(attr_dict['deposition_nox'])
         attributes.append(attr_dict['deposition_nh3'])
@@ -343,6 +362,10 @@ class SubPoint(Receptor):
         attributes.append(attr_dict['exceedance_days_pm25'])
         attributes.append(attr_dict['exceedance_hours_pm10'])
         attributes.append(attr_dict['exceedance_hours_pm25'])
+
+        # Return None if feature does not have any result values
+        if all(v is None for v in attributes[first_result_attribute:]):
+            return None
 
         feat.setAttributes(attributes)
         return feat
@@ -440,6 +463,8 @@ class CalculationPoint(Receptor):
         attributes.append(self.road_local_fraction_no2)
 
         attr_dict = self.get_attributes_dict()
+
+        first_result_attribute = len(attributes)
         attributes.append(attr_dict['deposition_nox_nh3_sum'])
         attributes.append(attr_dict['deposition_nox'])
         attributes.append(attr_dict['deposition_nh3'])
@@ -452,6 +477,10 @@ class CalculationPoint(Receptor):
         attributes.append(attr_dict['exceedance_days_pm25'])
         attributes.append(attr_dict['exceedance_hours_pm10'])
         attributes.append(attr_dict['exceedance_hours_pm25'])
+
+        # Return None if feature does not have any result values
+        if all(v is None for v in attributes[first_result_attribute:]):
+            return None
 
         feat.setAttributes(attributes)
         return feat
