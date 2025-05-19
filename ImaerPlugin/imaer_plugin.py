@@ -82,9 +82,16 @@ class ImaerPlugin:
         self.settings.setValue('imaer_plugin/connect_base_url', connect_base_url)
         connect_version = ui_settings['connect_version']['NL']
         self.settings.setValue('imaer_plugin/connect_version', connect_version)
-
         connect_key = self.settings.value('imaer_plugin/connect_key', defaultValue='')
-        self.aerius_connection = AeriusConnection(self, base_url=connect_base_url, version=connect_version, api_key=connect_key)
+        do_check_connection = True
+
+        country = self.settings.value('imaer_plugin/country')
+        if country not in ui_settings['connect_countries']:
+            connect_base_url = None
+            connect_version = None
+            do_check_connection = False
+
+        self.aerius_connection = AeriusConnection(self, base_url=connect_base_url, version=connect_version, api_key=connect_key, do_check_connection=do_check_connection)
         self.log(self.aerius_connection, user='user')
 
         # Create dialogs
@@ -471,11 +478,10 @@ class ImaerPlugin:
             self.actions['generate_calc_input'].setEnabled(True)
 
     def update_connect_widgets(self):
-        conn_ok = self.aerius_connection.api_key_is_ok
-
         country = self.configuration_dlg.combo_country.currentText()
         is_connect_country = country in ui_settings['connect_countries']
 
+        conn_ok = self.aerius_connection.is_valid() and self.aerius_connection.api_key_is_ok
         enable_connect_widgets = conn_ok and is_connect_country
 
         old_state = self.actions['connect_receptorsets'].isEnabled()

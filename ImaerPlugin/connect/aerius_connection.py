@@ -70,8 +70,10 @@ class AeriusConnection():
             self.plugin.log(msg, user=self.user)
 
     def is_valid(self):
-        if self.version is None:
+        if self.version is None or self.base_url is None:
             return False
+        else:
+            return True
 
     def check_connection(self, test_api_key=True):
         '''

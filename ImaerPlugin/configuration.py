@@ -102,12 +102,18 @@ class ConfigurationDialog(QDialog, FORM_CLASS):
         self.plugin.settings.setValue('imaer_plugin/connect_version', self.combo_connect_ver.currentText())
         self.plugin.settings.setValue('imaer_plugin/connect_email', self.edit_email.text())
         self.plugin.settings.setValue('imaer_plugin/connect_key', self.edit_key.text())
-        self.plugin.aerius_connection.base_url = self.edit_connect_base_url.text()
-        self.plugin.aerius_connection.version = self.combo_connect_ver.currentText()
-        self.plugin.aerius_connection.api_key = self.edit_key.text()
-        self.plugin.aerius_connection.check_connection()
+        
+        country = self.combo_country.currentText()
+        if country in ui_settings['connect_countries']:
+            self.plugin.aerius_connection.base_url = self.edit_connect_base_url.text()
+            self.plugin.aerius_connection.version = self.combo_connect_ver.currentText()
+            self.plugin.aerius_connection.api_key = self.edit_key.text()
+            # self.plugin.aerius_connection.check_connection()
+            self.plugin.connect_jobs_dlg.update_combo_calculation_type()
+        else:
+            self.plugin.aerius_connection.base_url = None
+            self.plugin.aerius_connection.version = None
         self.plugin.generate_calc_input_dlg.update_emission_tab()
-        self.plugin.connect_jobs_dlg.update_combo_calculation_type()
 
     def update_all_widgets(self):
         country = self.combo_country.currentText()
