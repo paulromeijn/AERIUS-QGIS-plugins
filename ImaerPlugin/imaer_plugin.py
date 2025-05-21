@@ -496,7 +496,7 @@ class ImaerPlugin:
 
     def open_online_documentation(self):
         short_version = '.'.join(self.version.split('.')[:2])  # 3.4.2 -> 3.4
-        doc_index_url = f'https://aerius.github.io/IMAER-QGIS-plugin/{short_version}/'
+        doc_index_url = f'https://docs-dev.aerius.nl/qgis/{short_version}/'
         webbrowser.open(doc_index_url)
 
     def open_configuration(self):
