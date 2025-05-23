@@ -198,38 +198,44 @@ class ImaerPlugin:
         if bar:
             self.iface.messageBar().pushMessage(lvl, str(message), level, duration=duration)
 
-    def run_import_calc_result(self, checked=False, gml_fn=None):
-        if gml_fn is None:
-            gml_fn, _ = self.calc_result_file_dialog.getOpenFileName(caption="Open Calculator result GML file", filter='*.gml', parent=self.iface.mainWindow())
-            # self.log(f'gml_fn: {gml_fn}')
-
-        if gml_fn == '' or gml_fn is None:
+    def run_import_calc_result(self, checked=False, gml_fns=None):
+        if gml_fns is None:
+            gml_fns, _ = self.calc_result_file_dialog.getOpenFileNames(caption="Open Calculator result GML file", filter='*.gml', parent=self.iface.mainWindow())
+            self.log(f'gml_fns: {gml_fns}')
+            # print(gml_fns)
+        
+        if gml_fns == []:
+            # print('no files selected')
             return
 
-        gml_path = os.path.dirname(gml_fn)
-        if not os.access(gml_path, os.W_OK):
-            self.log(f'Cannot create .gpkg file in gml directory: {gml_path}', lvl='Critical', bar=True, duration=5)
-            return
+        for gml_fn in gml_fns:
+            if gml_fn == '' or gml_fn is None:
+                return
 
-        gml_stem, _ = os.path.splitext(gml_fn)
-        gpkg_fn = f'{gml_stem}.gpkg'
+            gml_path = os.path.dirname(gml_fn)
+            if not os.access(gml_path, os.W_OK):
+                self.log(f'Cannot create .gpkg file in gml directory: {gml_path}', lvl='Critical', bar=True, duration=5)
+                return
 
-        if os.path.exists(gpkg_fn):  # TODO Warn for overwriting?
-            pass
-            # self.log(f'Gpkg file already exists: {gpkg_fn}', lvl='Warning', bar=True, duration=5)
+            gml_stem, _ = os.path.splitext(gml_fn)
+            gpkg_fn = f'{gml_stem}.gpkg'
 
-        task = ImportImaerCalculatorResultTask(self, gml_fn, gpkg_fn, self.import_calc_result_callback)
-        task_result = self.task_manager.addTask(task)
-        # self.log(f'task result: {task_result}')
+            if os.path.exists(gpkg_fn):  # TODO Warn for overwriting?
+                pass
+                # self.log(f'Gpkg file already exists: {gpkg_fn}', lvl='Warning', bar=True, duration=5)
+
+            task = ImportImaerCalculatorResultTask(self, gml_fn, gpkg_fn, self.import_calc_result_callback)
+            task_result = self.task_manager.addTask(task)
+            self.log(f'task result: {task_result}')
 
     def import_calc_result_callback(self, result, gpkg_fn=None):
         # self.log(result)
         if result['status'] == 'ok':
             self.load_calculation_results_gpkg(gpkg_fn)
         elif result['status'] == 'error':
-            self.log(result['message'], lvl='Critical', bar=True)
+            self.log(result['message'], lvl='Critical', bar=True, duration=10)
         elif result['status'] == 'warning':
-            self.log(result['message'], lvl='Warning', bar=True)
+            self.log(result['message'], lvl='Warning', bar=True, duration=10)
         else:
             self.log('Something unexpected went wrong (import_calc_result_callback)')
 
@@ -352,9 +358,10 @@ class ImaerPlugin:
             canvas.setExtent(total_extent)
 
         if loaded_layer_cnt == 0:
-            self.log(f'No result layers found.', lvl='Warning', bar=True, duration=3)
+            self.log(f'No result layers found in {stem}.gml', lvl='Warning', bar=True, duration=5)
         else:
-            self.log(f'Loaded {loaded_layer_cnt} result layers.', lvl='Info', bar=True, duration=3)
+            pass
+            #self.log(f'Loaded {loaded_layer_cnt} result layers.', lvl='Info', bar=True, duration=3)
 
     def set_imaer_styles(self, layer, style_name, labeling=None):
         field_names = layer.fields().names()

@@ -223,10 +223,10 @@ class ConnectJobsDialog(QDialog, FORM_CLASS):
                     base_name = download_url.split('/')[-1]
                     work_dir = self.plugin.settings.value('imaer_plugin/work_dir')
                     result = self.plugin.aerius_connection.download_result_zip(download_url, work_dir, base_name)
-                    # print(result)
+
                     # self.show_feedback(result)
                     for gml_fn in result:
-                        self.plugin.run_import_calc_result(gml_fn=gml_fn)
+                        self.plugin.run_import_calc_result(gml_fns=[gml_fn])
         QgsApplication.restoreOverrideCursor()
 
     def get_data_widget_matrix(self):

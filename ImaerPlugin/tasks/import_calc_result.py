@@ -38,6 +38,8 @@ class ImportImaerCalculatorResultTask(QgsTask):
         self.log(f'source: {self.gml_fn}')
         self.log(f'target: {self.gpkg_fn}')
 
+        gml_base_name = os.path.basename(self.gml_fn)
+
         self.setProgress(1)  # Cause setting to 0% does not work.
 
         doc = ImaerDocument()
@@ -54,7 +56,7 @@ class ImportImaerCalculatorResultTask(QgsTask):
         # self.log(doc_version_str)
         if doc_version_str not in ui_settings['supported_imaer_versions']:
             self.result['status'] = 'error'
-            self.result['message'] = f'Unsupported IMAER version ({doc.get_version().to_string()}).'
+            self.result['message'] = f'Unsupported IMAER version ({doc.get_version().to_string()}) in {gml_base_name}.'
             return False
 
         member_info = doc.get_member_count()
@@ -65,8 +67,9 @@ class ImportImaerCalculatorResultTask(QgsTask):
         # self.log(result_member_count)
 
         if result_member_count == 0:
+            
             self.result['status'] = 'warning'
-            self.result['message'] = 'No result features found in GML file.'
+            self.result['message'] = f'No result features found in {gml_base_name}.'
             return False
 
         gpkg = ImaerGpkg(self.gpkg_fn, plugin=self.plugin)
