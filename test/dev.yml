@@ -1,6 +1,0 @@
-user_credentials: Raymond
-path_qgis_python_folder: "/home/raymond/programs/qgis/qgis-3.34/share/qgis/python/"
-connect_base_url: "https://connect.aerius.nl/api"
-connect_version: 7
-connect_key: None
-lp_paths: "/home/raymond/programs/qgis/qgis-3.34/lib/"
