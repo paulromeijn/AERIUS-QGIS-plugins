@@ -1,5 +1,5 @@
-from PyQt5.QtCore import QXmlStreamReader, QFile
-from PyQt5.QtXml import QDomDocument
+from qgis.PyQt.QtCore import QXmlStreamReader, QFile
+from qgis.PyQt.QtXml import QDomDocument
 
 # Fix for import error while running tests.
 try:
@@ -102,7 +102,7 @@ class ImaerDocument():
     def from_xml_file(self, fn):
         self.gml_fn = fn
         file = QFile(fn)
-        file.open(QFile.ReadOnly | QFile.Text)
+        file.open(QFile.OpenModeFlag.ReadOnly | QFile.OpenModeFlag.Text)
         xml_reader = QXmlStreamReader(file)
 
         while not xml_reader.atEnd():

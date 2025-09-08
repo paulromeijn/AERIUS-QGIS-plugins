@@ -1,6 +1,6 @@
 import os
 
-from PyQt5.QtCore import Qt, QVariant, QDateTime
+from qgis.PyQt.QtCore import Qt, QVariant, QDateTime
 
 from qgis.core import (
     Qgis,
@@ -48,7 +48,7 @@ class ImaerGpkg():
 
         if self.plugin is not None:
             self.set_metadata('qgis_plugin_version', self.plugin.version)
-        self.set_metadata('gpkg_creation_time', QDateTime().currentDateTime().toString(Qt.ISODate))
+        self.set_metadata('gpkg_creation_time', QDateTime().currentDateTime().toString(Qt.DateFormat.ISODate))
 
     def create_layer(self, name, specific_fields, geometry_type, epsg_id):
         if self.conn is None:

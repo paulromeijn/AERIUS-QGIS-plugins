@@ -59,7 +59,7 @@ class ConfigurationDialog(QDialog, FORM_CLASS):
     def init_default_values(self):
         work_dir_setting = self.plugin.settings.value('imaer_plugin/work_dir', defaultValue=None)
         if work_dir_setting is None:
-            work_dir_setting = QStandardPaths.writableLocation(QStandardPaths.TempLocation)
+            work_dir_setting = QStandardPaths.writableLocation(QStandardPaths.StandardLocation.TempLocation)
             self.plugin.settings.setValue('imaer_plugin/work_dir', work_dir_setting)
 
         connect_base_url = self.plugin.settings.value('imaer_plugin/connect_base_url', defaultValue=None)
@@ -125,7 +125,7 @@ class ConfigurationDialog(QDialog, FORM_CLASS):
     def get_api_key(self):
         email = self.edit_email.text()
 
-        QgsApplication.setOverrideCursor(Qt.WaitCursor)
+        QgsApplication.setOverrideCursor(Qt.CursorShape.WaitCursor)
         result = self.plugin.aerius_connection.generate_api_key(email)
         QgsApplication.restoreOverrideCursor()
 

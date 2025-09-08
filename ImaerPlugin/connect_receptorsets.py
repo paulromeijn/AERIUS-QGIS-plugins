@@ -74,7 +74,7 @@ class ConnectReceptorSetsDialog(QDialog, FORM_CLASS):
             QgsApplication.restoreOverrideCursor()
             return
 
-        QgsApplication.setOverrideCursor(Qt.WaitCursor)
+        QgsApplication.setOverrideCursor(Qt.CursorShape.WaitCursor)
         result = self.plugin.aerius_connection.get_receptor_sets()
         QgsApplication.restoreOverrideCursor()
 
@@ -96,7 +96,7 @@ class ConnectReceptorSetsDialog(QDialog, FORM_CLASS):
         name = self.edit_name.text()
         description = self.edit_description.text()
 
-        QgsApplication.setOverrideCursor(Qt.WaitCursor)
+        QgsApplication.setOverrideCursor(Qt.CursorShape.WaitCursor)
         result = self.plugin.aerius_connection.post_receptor_set(gml_fn, name, description)
         QgsApplication.restoreOverrideCursor()
 
@@ -120,7 +120,7 @@ class ConnectReceptorSetsDialog(QDialog, FORM_CLASS):
         if name is None:
             return
 
-        QgsApplication.setOverrideCursor(Qt.WaitCursor)
+        QgsApplication.setOverrideCursor(Qt.CursorShape.WaitCursor)
         result = self.plugin.aerius_connection.delete_receptor_set(name)
         QgsApplication.restoreOverrideCursor()
 

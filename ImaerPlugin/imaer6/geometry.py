@@ -1,6 +1,6 @@
 import sys
 
-from PyQt5.QtXml import QDomDocument
+from qgis.PyQt.QtXml import QDomDocument
 
 from qgis.core import QgsPoint, QgsLineString, QgsPolygon
 

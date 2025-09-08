@@ -1,4 +1,4 @@
-from PyQt5.QtXml import QDomDocument
+from qgis.PyQt.QtXml import QDomDocument
 
 # from .enumerations import OutflowDirectionType
 from .gml import get_gml_element

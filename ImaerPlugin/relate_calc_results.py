@@ -102,7 +102,7 @@ class RelateCalcResultsDialog(QDialog, FORM_CLASS):
         calc_type = self.combo_calc_type.currentText()
         layers = self.get_layer_list()
         enable_ok_button = len(layers) >= 2
-        self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(enable_ok_button)
+        self.buttonBox.button(QDialogButtonBox.StandardButton.Ok).setEnabled(enable_ok_button)
 
     def add_result_layer(self, layer, layer_name):
         layer.setName(layer_name)

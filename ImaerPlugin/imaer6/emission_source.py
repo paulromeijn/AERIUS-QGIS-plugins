@@ -1,4 +1,4 @@
-from PyQt5.QtXml import QDomDocument
+from qgis.PyQt.QtXml import QDomDocument
 
 from .gml import get_gml_element
 from .identifier import Nen3610Id

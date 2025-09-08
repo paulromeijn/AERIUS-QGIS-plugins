@@ -1,5 +1,5 @@
-from PyQt5.QtCore import QXmlStreamReader
-from PyQt5.QtXml import QDomDocument
+from qgis.PyQt.QtCore import QXmlStreamReader
+from qgis.PyQt.QtXml import QDomDocument
 
 
 class AeriusCalculatorMetadata():

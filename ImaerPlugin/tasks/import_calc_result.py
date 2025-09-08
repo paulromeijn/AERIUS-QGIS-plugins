@@ -1,6 +1,5 @@
 import os
 
-from qgis.PyQt.QtCore import QVariant, QFile
 from qgis.core import (
     Qgis,
     QgsTask,

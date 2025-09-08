@@ -141,9 +141,9 @@ class GenerateCalcInputDialog(QDialog, FORM_CLASS):
         self.tvp_model.setHorizontalHeaderItem(3, QStandardItem('values'))
 
         self.tableView_tvp.horizontalHeader().setStretchLastSection(True)
-        self.tableView_tvp.setSelectionBehavior(QAbstractItemView.SelectRows)
-        self.tableView_tvp.setEditTriggers(QAbstractItemView.NoEditTriggers)
-        self.tableView_tvp.setSelectionMode(QAbstractItemView.SingleSelection)
+        self.tableView_tvp.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
+        self.tableView_tvp.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
+        self.tableView_tvp.setSelectionMode(QAbstractItemView.SelectionMode.SingleSelection)
 
         self.tableView_tvp.setModel(self.tvp_model)
         self.tableView_tvp.resizeColumnsToContents()
@@ -349,14 +349,14 @@ class GenerateCalcInputDialog(QDialog, FORM_CLASS):
 
     def update_ok_button(self):
         if self.edit_outfile.text() == '':
-            self.buttonBox.button(QDialogButtonBox.Save).setEnabled(False)
+            self.buttonBox.button(QDialogButtonBox.StandardButton.Save).setEnabled(False)
             return
         '''
         if self.get_current_sector_id() == 0:
-            self.buttonBox.button(QDialogButtonBox.Save).setEnabled(False)
+            self.buttonBox.button(QDialogButtonBox.StandardButton.Save).setEnabled(False)
             return
         '''
-        self.buttonBox.button(QDialogButtonBox.Save).setEnabled(True)
+        self.buttonBox.button(QDialogButtonBox.StandardButton.Save).setEnabled(True)
 
     def update_tvp_buttons(self):
         selected_rows = self.tableView_tvp.selectionModel().selectedRows()
@@ -915,7 +915,7 @@ class GenerateCalcInputDialog(QDialog, FORM_CLASS):
             tvp = self.tvp_model.item(row, 0).data()
         self.time_varying_profile_dlg.set_by_tvp(tvp)
         self.time_varying_profile_dlg.show()
-        result = self.time_varying_profile_dlg.exec_()
+        result = self.time_varying_profile_dlg.exec()
         if result:
             tvp = self.time_varying_profile_dlg.get_tvp()
             row = self.add_tvp_to_table(tvp, row)

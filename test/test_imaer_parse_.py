@@ -41,7 +41,7 @@ class TestImaerParse(unittest.TestCase):
 
         logging.debug('kaas')
 
-        file.open(QFile.ReadOnly | QFile.Text)
+        file.open(QFile.OpenModeFlag.ReadOnly | QFile.OpenModeFlag.Text)
         print(file)
 
         receptor_points = []

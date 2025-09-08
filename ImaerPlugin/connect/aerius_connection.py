@@ -5,7 +5,6 @@ from zipfile import ZipFile
 from qgis.PyQt.QtCore import (
     QFile,
     QFileInfo,
-    QIODevice,
     QVariant,
     QUrl,
     QEventLoop
@@ -161,7 +160,7 @@ class AeriusConnection():
                         QNetworkRequest.ContentDispositionHeader,
                         QVariant(f'form-data; name="{name}"; filename="{QFileInfo(file).fileName()}"')
                     )
-                    file.open(QIODevice.ReadOnly)
+                    file.open(QFile.OpenModeFlag.ReadOnly)
                     file_part.setBodyDevice(file)
                     file.setParent(multi_part)  # we cannot delete the file now, so delete it with the multi_part
                     multi_part.append(file_part)
@@ -177,7 +176,7 @@ class AeriusConnection():
             if blocking:
                 loop = QEventLoop()
                 reply.finished.connect(loop.quit)
-                loop.exec_()
+                loop.exec()
 
             return reply
 

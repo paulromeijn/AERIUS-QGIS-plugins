@@ -5,7 +5,8 @@ name=IMAER Plugin
 email=r.nijssen@terglobo.nl
 author=Raymond Nijssen, AERIUS
 qgisMinimumVersion=3.34.0
-qgisMaximumVersion=3.99.99
+qgisMaximumVersion=4.98.99
+supportsQt6=True
 description=Plugin for handling AERIUS and UK Air Pollution Assessment Service (APAS) IMAER files
 about=This plugin is co-developed between the Dutch and British government and supports from version 3.4.1 working with IMAER files for NL AERIUS and UK APAS. IMAER files comply with the international gml standards.
     
@@ -18,7 +19,7 @@ about=This plugin is co-developed between the Dutch and British government and s
     - Provides a GUI to the AERIUS Connect API.
 
 # Also change the version number in the plugin class in imaer_plugin.py!
-version=version 3.6.3
+version=version 3.6.4
 
 tracker=https://github.com/aerius/IMAER-QGIS-plugin/issues
 repository=https://github.com/aerius/IMAER-QGIS-plugin/
@@ -28,6 +29,7 @@ homepage=https://github.com/aerius/IMAER-QGIS-plugin/
 # Recommended items:
 
 changelog=
+    3.6.4   (11-07-2025) Documentation moved to docs.aerius.nl and fix for entity reference description in GML generator.
     3.6.3   (26-05-2025) Import multiple GML calculation result files in one go; Prevent connection requests when GUI is configured for UK; Only create result layers for data having result values.
     3.6.2   (02-04-2025) New GML generation options: Roads > Traffic direction; Calculation Points > road road_local_fraction_no2 and Entity Reference.
     3.6.1   (13-02-2025) Fix for division by zero bug in AERIUS Connect progress display, source code transfered to AERIUS github

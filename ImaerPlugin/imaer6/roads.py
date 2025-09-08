@@ -1,4 +1,4 @@
-from PyQt5.QtXml import QDomDocument
+from qgis.PyQt.QtXml import QDomDocument
 
 from .emission_source import EmissionSourceType
 

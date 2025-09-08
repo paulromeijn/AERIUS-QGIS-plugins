@@ -1,5 +1,5 @@
 {
-    "imaer_plugin_version": "3.6.3",
+    "imaer_plugin_version": "3.6.4",
     "options": {
         "group_input_es": true,
         "radioButton_es": true,

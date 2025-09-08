@@ -1,6 +1,6 @@
 import sys
 
-from PyQt5.QtXml import QDomDocument
+from qgis.PyQt.QtXml import QDomDocument
 
 
 class Nen3610Id():

@@ -93,7 +93,7 @@ class ConnectJobsDialog(QDialog, FORM_CLASS):
         related_widgets = self.get_related_data_widgets(self.sender())
         gml_fn = related_widgets['edit_gml_input'].text()
 
-        QgsApplication.setOverrideCursor(Qt.WaitCursor)
+        QgsApplication.setOverrideCursor(Qt.CursorShape.WaitCursor)
         result = self.plugin.aerius_connection.post_validate(gml_fn)
         QgsApplication.restoreOverrideCursor()
 
@@ -111,7 +111,7 @@ class ConnectJobsDialog(QDialog, FORM_CLASS):
             user_options['receptorSetName'] = self.combo_receptor_set.currentData()
         user_options['sendEmail'] = self.checkBox_send_email.isChecked()
 
-        QgsApplication.setOverrideCursor(Qt.WaitCursor)
+        QgsApplication.setOverrideCursor(Qt.CursorShape.WaitCursor)
         result = self.plugin.aerius_connection.post_calculate(gml_files, user_options)
         QgsApplication.restoreOverrideCursor()
 
@@ -131,7 +131,7 @@ class ConnectJobsDialog(QDialog, FORM_CLASS):
         if not self.plugin.aerius_connection.api_key_is_ok:
             return
 
-        QgsApplication.setOverrideCursor(Qt.WaitCursor)
+        QgsApplication.setOverrideCursor(Qt.CursorShape.WaitCursor)
         result = self.plugin.aerius_connection.get_jobs()
         QgsApplication.restoreOverrideCursor()
         # self.show_feedback(result)
@@ -185,7 +185,7 @@ class ConnectJobsDialog(QDialog, FORM_CLASS):
         '''Sends a cancel request to the server for the selected jobs'''
         items = self.table_jobs.selectedItems()
 
-        QgsApplication.setOverrideCursor(Qt.WaitCursor)
+        QgsApplication.setOverrideCursor(Qt.CursorShape.WaitCursor)
         for item in items:
             if item.column() == 1:  # jobKey column
                 job_key = item.text()
@@ -199,7 +199,7 @@ class ConnectJobsDialog(QDialog, FORM_CLASS):
         '''Sends a delete request to the server for the selected jobs'''
         items = self.table_jobs.selectedItems()
 
-        QgsApplication.setOverrideCursor(Qt.WaitCursor)
+        QgsApplication.setOverrideCursor(Qt.CursorShape.WaitCursor)
         for item in items:
             if item.column() == 1:  # jobKey column
                 job_key = item.text()
@@ -213,7 +213,7 @@ class ConnectJobsDialog(QDialog, FORM_CLASS):
         '''Downloads the selected job to the work directory if COMPLETED'''
         items = self.table_jobs.selectedItems()
 
-        QgsApplication.setOverrideCursor(Qt.WaitCursor)
+        QgsApplication.setOverrideCursor(Qt.CursorShape.WaitCursor)
         for item in items:
             if item.column() == 3:  # jobKey column
                 status = item.text()

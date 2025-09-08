@@ -38,9 +38,9 @@ class TimeVaryingProfileDialog(QDialog, FORM_CLASS):
     def update_ok_button(self):
         tvp = self.get_tvp()
         if tvp is None:
-            self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(False)
+            self.buttonBox.button(QDialogButtonBox.StandardButton.Ok).setEnabled(False)
             return
-        self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(True)
+        self.buttonBox.button(QDialogButtonBox.StandardButton.Ok).setEnabled(True)
 
     def set_by_tvp(self, tvp):
         self.lineEdit_id.setText(str(tvp.local_id))

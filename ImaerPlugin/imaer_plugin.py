@@ -64,12 +64,12 @@ class ImaerPlugin:
 
         self.iface = iface
         self.plugin_dir = os.path.dirname(__file__)
-        self.download_dir = QStandardPaths.writableLocation(QStandardPaths.DownloadLocation)
+        self.download_dir = QStandardPaths.writableLocation(QStandardPaths.StandardLocation.DownloadLocation)
         self.task_manager = QgsApplication.taskManager()
         self.provider = None
         self.imaer_calc_layers = {}
         self.settings = QgsSettings()
-        self.version = '3.6.3'
+        self.version = '3.6.4'
         self.imaer_doc = ImaerDocument()
         self.imaer_gpkg = ImaerGpkg(None)
         self.imaer_gpkg_field_factory = ImaerGpkgFieldFactory()
@@ -469,7 +469,7 @@ class ImaerPlugin:
     def run_generate_calc_input(self):
         self.log('run_generate_calc_input()', user='dev')
         self.generate_calc_input_dlg.show()
-        result = self.generate_calc_input_dlg.exec_()
+        result = self.generate_calc_input_dlg.exec()
         if result:
             self.generate_calc_input_dlg.generate_imaer_gml()
 
@@ -503,13 +503,13 @@ class ImaerPlugin:
 
     def open_online_documentation(self):
         short_version = '.'.join(self.version.split('.')[:2])  # 3.4.2 -> 3.4
-        doc_index_url = f'https://docs.aerius.nl/qgis/{short_version}/00_index'
+        doc_index_url = f'https://link.aerius.nl/qgis-plugin-{short_version}'
         webbrowser.open(doc_index_url)
 
     def open_configuration(self):
         self.log('open_configuration()', user='dev')
         self.configuration_dlg.load_ui_from_settings()
-        result = self.configuration_dlg.exec_()
+        result = self.configuration_dlg.exec()
         if result:
             self.configuration_dlg.save_ui_to_settings()
             self.aerius_connection.check_connection()
@@ -518,14 +518,14 @@ class ImaerPlugin:
 
     def open_connect_receptorsets(self):
         self.log('open_connect_receptorsets()', user='dev')
-        result = self.connect_receptorsets_dlg.exec_()
+        result = self.connect_receptorsets_dlg.exec()
 
     def open_connect_jobs(self):
         self.log('open_connect_jobs()', user='dev')
-        result = self.connect_jobs_dlg.exec_()
+        result = self.connect_jobs_dlg.exec()
 
     def run_relate_calc_results(self):
-        result = self.relate_calc_results_dlg.exec_()
+        result = self.relate_calc_results_dlg.exec()
 
         if not result == 1:
             return
