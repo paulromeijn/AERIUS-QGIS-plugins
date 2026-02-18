@@ -1,6 +1,6 @@
 # AERIUS/APAS IMAER plugin for QGIS
 
-QGIS 3 plugin for working with IMAER files
+QGIS 3 and 4 plugin for working with IMAER files
 
 ## Documentation
 
